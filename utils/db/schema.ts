@@ -27,7 +27,7 @@ export const reports = pgTable('reports', {
 });
 
 
-// all these are for future milestones when we include extension features.
+/* // all these are for future milestones when we include extension features.
 // rewards table stores the rewards earned by the user for collecting waste, but not needed yet as part of MS1
 export const rewards = pgTable('rewards', {
     id: serial('id').primaryKey(),
@@ -68,7 +68,7 @@ export const transactions = pgTable('transactions', {
     amount: integer('amount').notNull(), // points or money
     description: text('description').notNull(), 
     date: timestamp('date').defaultNow().notNull(),
-});
+}); */
 
 
 
