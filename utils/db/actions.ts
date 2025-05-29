@@ -1,6 +1,6 @@
 import { db } from "./dbConfig";
 import { notifications, Transactions, users } from "./schema";
-import { eq, sql, and, desc } from "drizzle-orm";
+import { eq, and, desc } from "drizzle-orm"; // add sql later
 
 export async function createUser(email: string, name: string) {
     try {
