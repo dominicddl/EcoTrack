@@ -14,17 +14,14 @@ Proposed level of achievement: Apollo 11
 ## Before using the app
 
 ### Limitations
-🔍 1. AI Accuracy & Dependence
-	•	Limitation: Reliance on Google Gemini AI for waste classification may lead to incorrect or biased predictions, especially for unclear images.
-	•	Impact: Users may get inaccurate rewards or feedback, reducing trust in the system.
+🔍 1. **AI Accuracy & Dependence**
+Reliance on Google Gemini AI for waste classification may lead to incorrect or biased predictions, especially for unclear images where users may get inaccurate rewards or feedback, reducing trust in the system.
 
-⚖️ 2. Verification Bottleneck
-	•	Limitation: Waste report verifications may require human validation in some cases, especially for edge scenarios.
-	•	Impact: Slows down the reward system and notification flow, reducing real-time effectiveness.
+⚖️ 2. **Verification Bottleneck**
+Waste report verifications may require human validation in some cases, especially for edge scenarios, which slows down the reward system and notification flow, reducing real-time effectiveness.
 
-🔒 3. Web3Auth Adoption Barrier
-	•	Limitation: Not all users (especially older or less tech-savvy ones) are comfortable with Web3 wallet-based authentication.
-	•	Impact: Limits app accessibility and onboarding rate among the general population.
+🔒 3. **Web3Auth Adoption Barrier**
+Not all users (especially older or less tech-savvy ones) are comfortable with Web3 wallet-based authentication, which limits app accessibility and onboarding rate among the general population.
 
 
 ## Milestone 1 (Ideation)
