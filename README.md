@@ -136,6 +136,60 @@ sorting habits.
 ## Software Engineering Practices and Design 
 
 ### Software Engineering Practices 
+**Primary Architecture: N-tier Architecture with MVC Pattern**
+
+For EcoTrack (an environmental tracking application), we aim to implement a **3-tier layered architecture** combined with the **Model-View-Controller (MVC)** pattern:
+
+```mermaid
+graph TB
+  subgraph PL[Presentation Layer]
+    UI[User Interface]
+    Controllers[Controllers]
+  end
+  subgraph BL[Business Logic Layer]
+    Models[Models/Entities]
+    Services[Business Services]
+    Validators[Data Validators]
+  end
+  subgraph DAL[Data Access Layer]
+    DAO[Data Access Objects]
+    DB[(Database)]
+    APIs[External APIs]
+  end
+  UI --> Controllers
+  Controllers --> Services
+  Controllers --> Models
+  Services --> DAO
+  DAO --> DB
+  DAO --> APIs
+```
+
+## Design Patterns
+
+### 1. **Model-View-Controller (MVC)**
+- **Models**: Represent environmental data (carbon footprint, energy usage, waste tracking)
+- **Views**: User interfaces for data input/visualization 
+- **Controllers**: Handle user interactions and coordinate between models and views
+
+### 2. **Observer Pattern**
+- Perfect for real-time environmental data updates
+- Notify users when thresholds are exceeded (e.g., high carbon footprint)
+- Update dashboards automatically when new data is added
+
+### 3. **Command Pattern**
+- Implement undo/redo functionality for data entry
+- Track user actions for audit purposes
+- Useful for batch operations (bulk data import/export)
+
+### 4. **Factory Pattern**
+- Create different types of environmental trackers (energy, transportation, waste)
+- Generate appropriate calculators based on data type
+- Support multiple calculation methodologies
+
+### 5. **Strategy Pattern**
+- Different calculation algorithms for carbon footprint
+- Multiple data export formats (PDF, CSV, JSON)
+- Various visualization types (charts, graphs, reports)
 
 
 ### Sequence Diagram
@@ -398,21 +452,21 @@ classDiagram
 
 ## 🚀 Feature Implementation Progress
 
-### ✅ **Milestone 1 - Technical Proof of Concept** 
+### **Milestone 1 - Technical Proof of Concept** 
 - **Authentication System**: Web3Auth integration with wallet-based login
 - **Frontend Foundation**: Next.js 15 with TypeScript and Tailwind CSS
 - **Database Layer**: PostgreSQL with Drizzle ORM, normalized schema
 - **Core UI Components**: Responsive design with shadcn/ui components
 - **Image Upload**: Integrated waste reporting with photo capture
 
-### ✅ **Milestone 2 - Core Prototype** 
+### **Milestone 2 - Core Prototype** 
 - **AI Verification**: Smart waste classification and validation system
 - **Rewards Engine**: Point-based incentive system with balance tracking
 - **Notification System**: Real-time updates for user actions and rewards
 - **Data Management**: Comprehensive reporting and tracking features
 - **User Experience**: Polished interface with loading states and error handling
 
-### ✅ **Milestone 3 - Extended System** 
+### **Milestone 3 - Extended System** 
 - **Gamification**: Leaderboard system with user rankings and achievements
 - **Analytics Dashboard**: Admin interface for system monitoring and insights
 - **Optimization**: Performance improvements and user feedback integration
