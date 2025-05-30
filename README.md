@@ -136,17 +136,288 @@ sorting habits.
 ## Software Engineering Practices and Design 
 
 ### Software Engineering Practices 
-‼️ Fill in software engineering 
+
 
 ### Sequence Diagram
-‼️ Fill in sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Header
+    participant Web3Auth
+    participant DB (actions.ts)
+
+    User->>Header: Loads page
+    Header->>Web3Auth: Initialize & check connection
+    alt User not logged in
+        User->>Header: Clicks "Login"
+        Header->>Web3Auth: Initiate login
+        Web3Auth-->>Header: Returns user info
+        Header->>DB: createUser(email, name)
+        DB-->>Header: User record
+    end
+    Header->>DB: getUserBalance(userId)
+    DB-->>Header: Balance
+    loop Every 30s
+        Header->>DB: getUnreadNotifications(userId)
+        DB-->>Header: Notifications
+    end
+    User->>Header: Clicks notification
+    Header->>DB: markNotificationAsRead(notificationId)
+    DB-->>Header: Confirmation
+```
 
 ### Class Diagram
-‼️ Fill in class diagram
+```mermaid
+classDiagram
+    %% Core Database Entities
+    class User {
+        +int id
+        +string email
+        +string name
+        +timestamp createdAt
+        +createUser(email: string, name: string)
+        +getUserByEmail(email: string)
+        +getUserBalance(userId: int)
+    }
+
+    class Report {
+        +int id
+        +int userId
+        +string location
+        +string wasteType
+        +string amount
+        +string imageUrl
+        +jsonb verificationResult
+        +string status
+        +timestamp createdAt
+        +int collectorId
+        +submitReport()
+        +verifyReport()
+        +assignCollector()
+    }
+
+    class CollectedWaste {
+        +int id
+        +int reportId
+        +int collectorId
+        +timestamp collectionDate
+        +string status
+        +markAsCollected()
+        +updateStatus()
+    }
+
+    class Reward {
+        +int id
+        +int userId
+        +int points
+        +timestamp createdAt
+        +timestamp updatedAt
+        +boolean isAvailable
+        +string description
+        +string name
+        +string collectionInfo
+        +calculateReward()
+        +redeemReward()
+    }
+
+    class Notification {
+        +int id
+        +int userId
+        +string message
+        +string type
+        +timestamp createdAt
+        +boolean isRead
+        +sendNotification()
+        +markAsRead()
+        +getUnreadNotifications()
+    }
+
+    class Transaction {
+        +int id
+        +int userId
+        +string type
+        +int amount
+        +string description
+        +timestamp date
+        +recordEarning()
+        +recordRedemption()
+        +getTransactionHistory()
+    }
+
+    %% Core Business Logic Services
+    class DatabaseActions {
+        +createUser(email: string, name: string)
+        +getUserByEmail(email: string)
+        +getUnreadNotifications(userId: int)
+        +getUserBalance(userId: int)
+        +getRewardTransactions(userId: int)
+        +markNotificationAsRead(notificationId: int)
+    }
+
+    class Web3AuthService {
+        +IProvider provider
+        +Web3AuthModal web3auth
+        +UserInfo userInfo
+        +initializeAuth()
+        +login()
+        +logout()
+        +getUserInfo()
+        +connectWallet()
+    }
+
+    class VerificationService {
+        +verifyWasteImage(imageUrl: string)
+        +processImageAnalysis()
+        +generateVerificationResult()
+        +calculateRewardPoints()
+    }
+
+    class NotificationService {
+        +sendRealtimeNotification()
+        +createSystemNotification()
+        +broadcastToUsers()
+        +scheduleReminders()
+    }
+
+    %% UI Components
+    class Header {
+        +boolean sidebarOpen
+        +number totalEarnings
+        +UserInfo userInfo
+        +Notification notifications
+        +number balance
+        +handleLogin()
+        +handleLogout()
+        +toggleNotifications()
+        +updateBalance()
+    }
+
+    class Button {
+        +string variant
+        +string size
+        +boolean asChild
+        +render()
+    }
+
+    class Badge {
+        +string variant
+        +render()
+    }
+
+    class DropdownMenu {
+        +boolean open
+        +ReactNode trigger
+        +ReactNode content
+        +handleSelect()
+    }
+
+    %% Layout and Pages
+    class RootLayout {
+        +boolean sidebarOpen
+        +number totalEarnings
+        +handleMenuClick()
+        +render()
+    }
+
+    class HomePage {
+        +render()
+    }
+
+    %% Utility Classes
+    class MediaQueryHook {
+        +string query
+        +boolean matches
+        +useMediaQuery()
+    }
+
+    class DatabaseConfig {
+        +NeonDatabase db
+        +initializeConnection()
+    }
+
+    class Utils {
+        +cn()
+        +clsx()
+        +twMerge()
+    }
+
+    %% Relationships
+    User "1" --> "many" Report : submits
+    User "1" --> "many" Reward : earns
+    User "1" --> "many" Notification : receives
+    User "1" --> "many" Transaction : has
+    User "1" --> "many" CollectedWaste : collects
+
+    Report "1" --> "1" CollectedWaste : collected_as
+    Report "many" --> "1" User : assigned_to_collector
+
+    Reward "many" --> "1" User : belongs_to
+    Transaction "many" --> "1" User : belongs_to
+    Notification "many" --> "1" User : sent_to
+
+    %% Service Dependencies
+    DatabaseActions ..> User
+    DatabaseActions ..> Notification
+    DatabaseActions ..> Transaction
+
+    Web3AuthService ..> User
+    VerificationService ..> Report
+    NotificationService ..> Notification
+
+    %% UI Component Dependencies
+    Header ..> Web3AuthService
+    Header ..> DatabaseActions
+    Header ..> NotificationService
+    Header ..> Button
+    Header ..> Badge
+    Header ..> DropdownMenu
+
+    RootLayout ..> Header
+    HomePage ..> RootLayout
+
+    %% Utility Dependencies
+    Button ..> Utils
+    Badge ..> Utils
+    DropdownMenu ..> Utils
+    Header ..> MediaQueryHook
+
+    DatabaseActions ..> DatabaseConfig
+```
 
 ### Summary
 
 ## Timeline and Development Plan 
-‼️ Make table
+## 📅 EcoTrack Development Timeline & Milestones
+
+| **Milestone** | **Due Date** | **Phase** | **Deliverables** | **Status** | **Features** |
+|---------------|--------------|-----------|------------------|------------|--------------|
+| **Milestone 1** | **June 2, 2024** | **Technical Proof of Concept** | Minimal Working System | **COMPLETED** | • Web3Auth user authentication<br>• Basic home page & dashboard<br>• Waste reporting with image upload<br>• Database integration (PostgreSQL + Drizzle)<br>• Responsive UI components |
+| **Milestone 2** | **June 30, 2024** | **Core Prototype** | Working System with Core Features | **NOT COMPLETED** | • AI-powered waste verification<br>• Rewards points system<br>• Real-time push notifications<br>• User balance tracking<br>• Report status management |
+| **Milestone 3** | **July 28, 2024** | **Extended System** | Full-Featured Application | **NOT COMPLETED** | • Interactive leaderboard & achievements<br>• Admin dashboard & analytics<br>• System optimization & user testing<br>• Bug fixes & UX improvements<br>• Performance enhancements |
+
+## 🚀 Feature Implementation Progress
+
+### ✅ **Milestone 1 - Technical Proof of Concept** 
+- **Authentication System**: Web3Auth integration with wallet-based login
+- **Frontend Foundation**: Next.js 15 with TypeScript and Tailwind CSS
+- **Database Layer**: PostgreSQL with Drizzle ORM, normalized schema
+- **Core UI Components**: Responsive design with shadcn/ui components
+- **Image Upload**: Integrated waste reporting with photo capture
+
+### ✅ **Milestone 2 - Core Prototype** 
+- **AI Verification**: Smart waste classification and validation system
+- **Rewards Engine**: Point-based incentive system with balance tracking
+- **Notification System**: Real-time updates for user actions and rewards
+- **Data Management**: Comprehensive reporting and tracking features
+- **User Experience**: Polished interface with loading states and error handling
+
+### ✅ **Milestone 3 - Extended System** 
+- **Gamification**: Leaderboard system with user rankings and achievements
+- **Analytics Dashboard**: Admin interface for system monitoring and insights
+- **Optimization**: Performance improvements and user feedback integration
+- **Testing & Refinement**: Bug fixes, UX enhancements, and system stability
+- **Mobile Responsiveness**: Cross-device compatibility and touch optimization
+
 ## Project Logging
-‼️ Insert google sheet link
+https://docs.google.com/spreadsheets/d/1qt2mJ2I-7t5aVOVSAWLBEEHEN_XpdWWZP9iVdjLWB6Y/edit?gid=0#gid=0
