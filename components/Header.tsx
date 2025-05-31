@@ -1,28 +1,18 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Button } from "./button";
-import {
-  Menu,
-  Coins,
-  Search,
-  Bell,
-  User,
-  ChevronDown,
-  LogIn,
-  Recycle,
-} from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./dropdown-menu";
-import { Badge } from "./badge";
-import { Web3Auth } from "@web3auth/modal";
-import { CHAIN_NAMESPACES, IProvider, WEB3AUTH_NETWORK } from "@web3auth/base";
+'use client'
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { usePathname } from 'next/navigation'
+import { Button } from "@/components/ui/button"
+import { Menu, Coins, Recycle, Search, Bell, User, ChevronDown, LogIn } from "lucide-react"
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu"
+import { Badge } from "@/components/ui/badge"
+import { Web3Auth } from "@web3auth/modal"
+import { CHAIN_NAMESPACES, IProvider, WEB3AUTH_NETWORK } from "@web3auth/base"
 import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
 import { createUser, getUnreadNotifications, markNotificationAsRead, getUserByEmail, getUserBalance } from "@/utils/db/actions"
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -41,7 +31,7 @@ const chainConfig = {
   chainId: "0xaa36a7",
   rpcTarget: "https://rpc.ankr.com/eth_sepolia",
   displayName: "Ethereum Sepolia Testnet",
-  blockExplorerURL: "https://sepolia.etherscan.io",
+  blockExplorerUrl: "https://sepolia.etherscan.io",
   ticker: "ETH",
   tickerName: "Ethereum",
   logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
@@ -322,5 +312,5 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
         </div>
       </div>
     </header>
-  );
+  )
 }
