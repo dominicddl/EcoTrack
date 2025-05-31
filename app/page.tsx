@@ -40,9 +40,9 @@ export default function Home() {
           title="Get Rewarded"
           description="Earn tokens and rewards for reporting waste and participating in community cleanup activities."/>
         <FeatureCard
-          icon={Leaf}
+          icon={Users}
           title="Community Driven"
-          description="Our AI-powered platform helps you make waste management more efficient and eco-friendly."/>
+          description="Join a community of environmentally conscious citizens working together to create cleaner neighborhoods."/>
       </section>
       <section className="bg-white p-10 rounded-3xl shadow-lg mb-20">
         <h2 className="text-4xl font-bold mb-12 text-center text-gray-800">Our Impact</h2>
