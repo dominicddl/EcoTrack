@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "./ui/button"; //not added yet, wait for dominic to merge layout changes then 
-// git checkout main, git pull origin main, git checkout zamien/sidebar, then git rebase main
+import { Button } from "./ui/button";
 import { MapPin, Trash, Coins, Medal, Settings, Home } from "lucide-react";
 
 const sidebarItems = [
