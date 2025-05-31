@@ -10,7 +10,7 @@ function AnimatedIcon() {
   return (
     <div className="relative w-32 h-32 mx-auto mb-8">
       <div className="absolute inset-0 rounded-full bg-green-500 opacity-20 animate-pulse"></div>
-      <div className="absolute inset-2 rounded-full bg-green-400 opacity-40 animate-ping"></div>
+      {/* <div className="absolute inset-2 rounded-full bg-green-400 opacity-40 animate-ping"></div> */}
       <div className="absolute inset-4 rounded-full bg-green-300 opacity-60 animate-spin"></div>
       <div className="absolute inset-6 rounded-full bg-green-200 opacity-80 animate-bounce"></div>
       <Leaf className="absolute inset-0 m-auto h-16 w-16 text-green-600 animate-pulse" />
@@ -26,8 +26,8 @@ export default function Home() {
         <h1 className="text-6xl font-bold mb-6 text-gray-800 tracking-tight">EcoTrack <span className="text-green-600"> Waste Management</span></h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-8">Make waste management more efficient and eco-friendly with our AI-powered platform!</p>
         <Link href="/reports">
-+          <Button className="bg-green-500 hover:bg-green-700 text-white text-lg py-6 px-10 rounded-full">Report Waste</Button>
-+        </Link>
+          <Button className="bg-green-600 hover:bg-green-700 text-white text-lg py-6 px-10 rounded-full">Report Waste</Button>
+        </Link>
       </section>
 
       <section className="grid md:grid-cols-3 gap-10 mb-20">
@@ -45,7 +45,7 @@ export default function Home() {
           description="Join a community of environmentally conscious citizens working together to create cleaner neighborhoods."/>
       </section>
       <section className="bg-white p-10 rounded-3xl shadow-lg mb-20">
-        <h2 className="text-4xl font-bold mb-12 text-center text-gray-800">Our Impact</h2>
+        <h2 className="text-4xl font-bold mb-12 text-center text-gray-800">Our Impact (numbers are made up for now)</h2>
         <div className="grid md:grid-cols-4 gap-6">
           <ImpactCard title="Waste collected" value={'20 Kg'} icon={Recycle}/>
           <ImpactCard title="Reports Submitted" value={50} icon={MapPin}/>
