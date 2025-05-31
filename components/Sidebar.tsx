@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "./ui/button"; //not added yet, wait for dominic to merge layout changes then 
-// git checkout main, git pull origin main, git checkout zamien/sidebar, then git rebase main
+import { Button } from "./ui/button"; 
 import { MapPin, Trash, Coins, Medal, Settings, Home } from "lucide-react";
 
 const sidebarItems = [
@@ -33,7 +32,7 @@ export default function Sidebar({open}: SidebarProps) {
                         </Link>
                     ))}
                 </div>
-                <div className="p-4 border-t broder-gray-200">
+                <div className="p-4 border-t border-gray-200">
                     <Link href="/settings" passHref>
                         <Button variant={pathname === '/settings' ? 'secondary' : 'outline'} className={`w-full py-3 ${pathname === "/settings" ? "bg-green-100 text-green-800" : "text-gray-600 border-gray-300 hover:bg-gray-100"}`}>
                             <Settings className="mr-3 h-5 w-5" />

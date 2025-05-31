@@ -23,9 +23,11 @@ export default function Home() {
     <div className="container mx-auto px-4 py-16">
       <section className="text-center mb-20">
         <AnimatedIcon/>
-        <h1 className="text-6xl font-bold mb-6 text-gray-800 tracking tight">EcoTrack <span className="text-green-600"> Waste Management</span></h1>
+        <h1 className="text-6xl font-bold mb-6 text-gray-800 tracking-tight">EcoTrack <span className="text-green-600"> Waste Management</span></h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-8">Make waste management more efficient and eco-friendly with our AI-powered platform!</p>
-        <Button className="bg-green-500 hover:bg-green-700 text-white text-lg py-6 px-10 rounded-full">Report Waste</Button>
+        <Link href="/reports">
++          <Button className="bg-green-500 hover:bg-green-700 text-white text-lg py-6 px-10 rounded-full">Report Waste</Button>
++        </Link>
       </section>
 
       <section className="grid md:grid-cols-3 gap-10 mb-20">
@@ -36,7 +38,7 @@ export default function Home() {
         <FeatureCard
           icon={Coins}
           title="Get Rewarded"
-          description="Get Rewarded when something idk uty"/>
+          description="Earn tokens and rewards for reporting waste and participating in community cleanup activities."/>
         <FeatureCard
           icon={Leaf}
           title="Community Driven"
@@ -59,7 +61,7 @@ export default function Home() {
 
 function FeatureCard({icon:Icon, title, description}:{icon: React.ElementType, title: string, description: string}) {
   return (
-    <div className="bg-white p[-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ease-in-out flex flex-col items-center text-center">
+    <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ease-in-out flex flex-col items-center text-center">
       <div className="bg-green-100 p-4 rounded-full mb-6">
         <Icon className='h-8 w-8 text-green-600'></Icon>
       </div>
@@ -73,8 +75,8 @@ function ImpactCard({title, value, icon:Icon}: {title: string; value:string|numb
   return (
     <div className="p-6 rounded-xl bg-gray-50 border border-gray-100 transition-all duration-300 ease-in-out hover:shadow-md">
       <Icon className="h-10 w-10 text-green-500 mb-4" />
-      <p className="text-3xl font bold mb-2 text-gray-800">{value}</p>
-      <p className="text-sm text-gray-600">{title}</p>{""}
+      <p className="text-3xl font-bold mb-2 text-gray-800">{value}</p>
+      <p className="text-sm text-gray-600">{title}</p>
 
     </div>
   )
