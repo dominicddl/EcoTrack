@@ -7,17 +7,37 @@ import { Toaster } from "react-hot-toast";
 import Header from "@/components/Header";
 // Make sure the Sidebar component exists at this path, or update the path if necessary
 import Sidebar from "@/components/Sidebar";
+import { getAvailableRewards, getUserByEmail } from "@/utils/db/actions";
 
 
 const inter = Inter({ subsets: ["latin"]});
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode
-}>) {
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [totalEarnings, setTotalEarnings] = useState(0);
+
+  useEffect(() => {
+    const fetchTotalEarnings = async () => {
+      try {
+        const userEmail = localStorage.getItem('userEmail');
+        if (userEmail) {
+          const user = await getUserByEmail(userEmail);
+          if (user) {
+            const availableRewards = await getAvailableRewards(user.id) as any;
+            setTotalEarnings(availableRewards);
+          }
+        }
+      } catch(e) {
+          console.error('Error fetching total earnings:', e);
+      }
+    };
+    fetchTotalEarnings();
+  },[]);
+
 
   return (
     <html lang="en">

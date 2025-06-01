@@ -1,10 +1,10 @@
 import { db } from "./dbConfig";
-import { notifications, Transactions, users } from "./schema";
-import { eq, and, desc } from "drizzle-orm"; // add sql later
+import { Notifications, Transactions, Users, Reports, Rewards } from "./schema";
+import { eq, and, desc, sql } from "drizzle-orm"; 
 
 export async function createUser(email: string, name: string) {
     try {
-        const [user] = await db.insert(users).values({email, name}).returning().execute()
+        const [user] = await db.insert(Users).values({email, name}).returning().execute()
         return user;
     } catch (error) {
         console.error("Error creating user", error);
@@ -14,7 +14,7 @@ export async function createUser(email: string, name: string) {
 
 export async function getUserByEmail(email: string) {
     try {
-        const [user] = await db.select().from(users).where(eq(users.email , email)).execute()
+        const [user] = await db.select().from(Users).where(eq(Users.email , email)).execute()
         return user;
     } catch(error) {
         console.error("Error fetching user by email", error)
@@ -24,7 +24,7 @@ export async function getUserByEmail(email: string) {
 
 export async function getUnreadNotifications(userId: number) {
     try {
-        return await db.select().from(notifications).where(and(eq(notifications.userId, userId), eq(notifications.isRead, false))).execute();
+        return await db.select().from(Notifications).where(and(eq(Notifications.userId, userId), eq(Notifications.isRead, false))).execute();
     } catch(error) {
         console.error("Error fetching unread notifications", error);
         return null;
@@ -72,9 +72,156 @@ export async function getRewardTransactions(userId: number) {
 
 export async function markNotificationAsRead(notificationId: number) {
     try {
-        await db.update(notifications).set({ isRead: true }).where(eq(notifications.id, notificationId)).execute();
+        await db.update(Notifications).set({ isRead: true }).where(eq(Notifications.id, notificationId)).execute();
     } catch(error) {
         console.error("Error marking notification as read", error);
         return null;
+    }
+}
+
+export async function createReport(
+    userId: number,
+    location: string,
+    wasteType: string,
+    amount: string,
+    imageUrl?: string,
+    verificationResult? : any
+) {
+    try {
+        const reportData: any = {
+            userId,
+            location,
+            wasteType,
+            amount,
+            status: 'pending'
+        };
+        if (imageUrl !== undefined) reportData.imageUrl = imageUrl;
+        if (verificationResult !== undefined) reportData.verificationResult = verificationResult;
+
+        const [report] = await db.insert(Reports).values(reportData)
+        .returning().execute();
+        /* if (imageUrl !== undefined) reportData.imageUrl = imageUrl;
+        if (verificationResult !== undefined) reportData.verificationResult = verificationResult; */
+
+        
+        const pointsEarned = 10; // Example points for reporting waste
+
+        //update reward points
+        await updateRewardPoints(userId, pointsEarned);
+        //create transactions
+        await createTransaction(userId, 'earned_report', pointsEarned, 'Points earned for reporting waste');
+        //create nmotifcations
+        await createNotification(userId, `You earned ${pointsEarned} points`, "reward" );
+        
+        return report;
+    } catch (e) {
+        console.error("Error creating report", e);
+        return null;
+    }
+}
+
+export async function getReportsByUserId(userId: number) {
+  try {
+    const reports = await db.select().from(Reports).where(eq(Reports.userId, userId)).execute();
+    return reports;
+  } catch (error) {
+    console.error("Error fetching reports:", error);
+    return [];
+  }
+}
+
+export async function updateRewardPoints(userId: number, pointsToAdd: number) {
+    try {
+        const [updatedReward] = await db.update(Rewards)
+            .set({ points: sql`${Rewards.points} + ${pointsToAdd}` })
+            .where(eq(Rewards.userId, userId))
+            .returning().execute();
+            return updatedReward;
+    } catch(e) {
+        console.error("Error updating reward points", e);
+        return null;
+    }
+}
+
+export async function createTransaction(
+    userId: number,
+    type: 'earned_report' | 'earned_collect' | 'redeemed',
+    amount: number,
+    description: string) {
+        try {
+            const [transaction] = await db.insert(Transactions).values({
+                userId, type, amount, description
+            }).returning().execute();
+            return transaction;
+        } catch(e) {
+            console.error("Error creating transaction", e);
+            throw e;
+        }
+}  
+    
+export async function createNotification(userId: number, message: string, type: string) {
+    try {
+        const [notification] = await db.insert(Notifications).values({
+            userId, message, type
+        }).returning().execute();
+        return notification;
+    } catch(e) {
+        console.error("Error creating notification", e);
+        return null;
+    }
+
+}
+
+export async function getRecentReports(limit: number = 5) {
+    try {
+        const reports = await db.select().from(Reports).orderBy(desc(Reports.createdAt)).limit(limit).execute();
+
+        /* const formattedReports = reports.map(report => ({
+            ...report,
+            date: report.date.toISOString().split('T')[0] // Convert date to ISO string for consistency
+        })) */
+
+        /* return formattedReports; */
+    } catch(e) {
+        console.error("Error fetching recent reports", e);
+        return [];
+    }
+}
+
+export async function getAvailableRewards(userId: number) {
+    try {
+
+        console.log("Fetching available rewards for user:", userId);
+
+        const userTransactions = await getRewardTransactions(userId) as any;
+        const userPoints = userTransactions?.reduce((total:any, transaction:any) => {
+            return transaction.type.startsWith('earned') ? total + transaction.amount : total - transaction.amount;
+        },
+        0 );
+
+        const dbRewards = await db.select({
+            id: Rewards.id,
+            name: Rewards.name,
+            cost: Rewards.points,
+            description: Rewards.description,
+            collectionInfo: Rewards.collectionInfo,
+        }).from(Rewards).where(eq(Rewards.isAvailable, true)).execute();
+
+        const allRewards = [
+            {
+                id:0,
+                name: "Your Points",
+                cost: userPoints,
+                description: "Your current points",
+                collectionInfo: "Points earned from reporting waste and collecting waste"
+            },
+            ...dbRewards
+        ];
+
+        return allRewards;
+
+    } catch (e) {
+        console.error("Error fetching available rewards", e);
+        return [];
     }
 }
