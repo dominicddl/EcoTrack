@@ -1,4 +1,7 @@
-import { ArrowRight, Leaf, Recycle, Users, Coins, MapPin, ChevronRight } from 'lucide-react';
+'use client';
+import { useState,useEffect } from 'react';
+
+import { ArrowRight, Recycle, Users, Coins, MapPin, ChevronRight } from 'lucide-react';
 
 import  { Button } from '@/components/ui/button';
 
@@ -13,7 +16,7 @@ function AnimatedIcon() {
       {/* <div className="absolute inset-2 rounded-full bg-green-400 opacity-40 animate-ping"></div> */}
       <div className="absolute inset-4 rounded-full bg-green-300 opacity-60 animate-spin"></div>
       <div className="absolute inset-6 rounded-full bg-green-200 opacity-80 animate-bounce"></div>
-      <Leaf className="absolute inset-0 m-auto h-16 w-16 text-green-600 animate-pulse" />
+      <Recycle className="absolute inset-0 m-auto h-16 w-16 text-green-600 animate-pulse" />
     </div>
   );
 }
@@ -25,14 +28,14 @@ export default function Home() {
         <AnimatedIcon/>
         <h1 className="text-6xl font-bold mb-6 text-gray-800 tracking-tight">EcoTrack <span className="text-green-600"> Waste Management</span></h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-8">Make waste management more efficient and eco-friendly with our AI-powered platform!</p>
-        <Link href="/reports">
+        <Link href="/report">
           <Button className="bg-green-600 hover:bg-green-700 text-white text-lg py-6 px-10 rounded-full">Report Waste</Button>
         </Link>
       </section>
 
       <section className="grid md:grid-cols-3 gap-10 mb-20">
         <FeatureCard
-          icon={Leaf}
+          icon={Recycle}
           title="Eco-Friendly"
           description="Our AI-powered platform helps you make waste management more efficient and eco-friendly."/>
         <FeatureCard
@@ -50,7 +53,7 @@ export default function Home() {
           <ImpactCard title="Waste collected" value={'20 Kg'} icon={Recycle}/>
           <ImpactCard title="Reports Submitted" value={50} icon={MapPin}/>
           <ImpactCard title="Tokens Earned" value={100} icon={Coins}/>  
-          <ImpactCard title="C02 Offset" value={'50 Kg'} icon={Leaf}/>
+          <ImpactCard title="C02 Offset" value={'50 Kg'} icon={Recycle}/>
         </div>
       </section>
 
