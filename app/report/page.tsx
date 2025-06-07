@@ -16,6 +16,7 @@ const libraries: Libraries = ['places'];
 
 export default function ReportPage() {
     const [user, setUser] = useState('') as any;
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
 
     const [reports, setReports] = useState<Array<{
@@ -201,24 +202,29 @@ export default function ReportPage() {
         const checkUser = async () => {
             const email = localStorage.getItem('userEmail');
             if (email) {
-                
                 let user = await getUserByEmail(email);
                 setUser(user);
                 
                 const recentReports = await getRecentReports() as any;
-
                 
-                const formattedReports = recentReports.map((report: any) => ({
-                    ...report,
-                    createdAt: report.createdAt.toISOString().split('T')[0]
-                }));
-                setReports(formattedReports);
+                if (recentReports && Array.isArray(recentReports) && recentReports.length > 0) {
+                    const formattedReports = recentReports.map((report: any) => ({
+                        ...report,
+                        createdAt: report.createdAt.toISOString().split('T')[0]
+                    }));
+                    setReports(formattedReports);
+                }
             } else {
                 router.push('/');
             }
+            setLoading(false);
         };
         checkUser();
     }, [router]);
+
+    if (loading) {
+        return <div className="p-8 max-w-4xl mx-auto">Loading...</div>;
+    }
 
 
     return (

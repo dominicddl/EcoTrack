@@ -175,13 +175,7 @@ export async function createNotification(userId: number, message: string, type: 
 export async function getRecentReports(limit: number = 5) {
     try {
         const reports = await db.select().from(Reports).orderBy(desc(Reports.createdAt)).limit(limit).execute();
-
-        /* const formattedReports = reports.map(report => ({
-            ...report,
-            date: report.date.toISOString().split('T')[0] // Convert date to ISO string for consistency
-        })) */
-
-        /* return formattedReports; */
+        return reports;
     } catch(e) {
         console.error("Error fetching recent reports", e);
         return [];
