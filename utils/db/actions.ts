@@ -4,11 +4,15 @@ import { eq, and, desc, sql } from "drizzle-orm";
 
 export async function createUser(email: string, name: string) {
     try {
-        const [user] = await db.insert(Users).values({email, name}).returning().execute()
+        // Check if user already exists
+        const [existingUser] = await db.select().from(Users).where(eq(Users.email, email)).execute();
+        if (existingUser) return existingUser;
+
+        const [user] = await db.insert(Users).values({email, name}).returning().execute();
         return user;
     } catch (error) {
         console.error("Error creating user", error);
-        return null
+        return null;
     }
 }
 

@@ -12,8 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import { Web3Auth } from "@web3auth/modal"
-import { CHAIN_NAMESPACES, IProvider, WEB3AUTH_NETWORK } from "@web3auth/base"
-import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
+import { IProvider, } from "@web3auth/base"
 import { createUser, getUnreadNotifications, markNotificationAsRead, getUserByEmail, getUserBalance } from "@/utils/db/actions"
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
@@ -26,27 +25,10 @@ interface Notification {
   message: string;
 }
 
-const chainConfig = {
-  chainNamespace: CHAIN_NAMESPACES.EIP155,
-  chainId: "0xaa36a7",
-  rpcTarget: "https://rpc.ankr.com/eth_sepolia",
-  displayName: "Ethereum Sepolia Testnet",
-  blockExplorerUrl: "https://sepolia.etherscan.io",
-  ticker: "ETH",
-  tickerName: "Ethereum",
-  logo: "https://cryptologos.cc/logos/ethereum-eth-logo.png",
-};
-
-const privateKeyProvider = new EthereumPrivateKeyProvider({
-  config: { chainConfig },
-});
-// Add the required 'currentChain' property to satisfy the interface
-(privateKeyProvider as any).currentChain = chainConfig.chainId;
 
 const web3auth = new Web3Auth({
   clientId,
   web3AuthNetwork: "sapphire_devnet",
-  privateKeyProvider,
 });
 
 interface headerProps {
@@ -99,7 +81,7 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
         const user = await getUserByEmail(userInfo.email);
         if (user) {
           const unreadNotifications = await getUnreadNotifications(user.id);
-          setNotifications(unreadNotifications);
+          setNotifications(unreadNotifications ?? []);
         }
       }
     };
