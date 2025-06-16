@@ -221,7 +221,11 @@ export default function ReportPage() {
                     setReports(formattedReports);
                 }
             } else {
-                router.push('/');
+                //show login prompt and redirect to homepage
+                toast.error('Please log in to report waste.');
+                setTimeout(()=> {
+                    router.push('/');
+                },1500); //1.5 second delay
             }
             setLoading(false);
         };
