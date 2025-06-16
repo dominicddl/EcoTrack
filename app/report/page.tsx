@@ -97,7 +97,7 @@ export default function ReportPage() {
         });
     };
 
-    // Verify waste type and amount using Gemini
+    // verify waste type and amount using Gemini
     const handleVerify = async () => {
         if (!file) return;
 
@@ -110,10 +110,10 @@ export default function ReportPage() {
             const imageParts = [
                 {
                     inlineData: {
-                        data: base64data.split(',')[1], // Remove the data URL prefix
+                        data: base64data.split(',')[1], 
                         mimeType: file.type
-                    }
-                }
+                    },
+                },
             ];
 
             const prompt = `Imagine you are an expert in waste management and recycling. Analyse the image in this manner: 
@@ -131,8 +131,14 @@ export default function ReportPage() {
             const response = await result.response;
             const text = response.text();
 
+            //trying to fix the JSON parsing issue
+            let jsonString = text.trim();
+            if (jsonString.startsWith('```')) {
+                jsonString = jsonString.replace(/```json|```/g, '').trim();
+            } 
+
             try {
-                const parsedResult = JSON.parse(text);
+                const parsedResult = JSON.parse(jsonString);
                 if (parsedResult.wasteType && parsedResult.quantity && parsedResult.confidence) {
                     setVerificationResult(parsedResult);
                     setVerificationStatus('success');
@@ -146,7 +152,7 @@ export default function ReportPage() {
                     setVerificationStatus('failure');
                 }
             } catch (e) {
-                console.error('Failed to parse JSON response', e);
+                console.error('Failed to parse JSON response', e, jsonString);
                 setVerificationStatus('failure');
             }
 
