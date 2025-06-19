@@ -1,5 +1,5 @@
 import { db } from "./dbConfig";
-import { Notifications, Transactions, Users, Reports, Rewards } from "./schema";
+import { Notifications, Transactions, Users, Reports, Rewards, CollectedWastes } from "./schema";
 import { eq, and, desc, sql } from "drizzle-orm"; 
 
 export async function createUser(email: string, name: string) {
@@ -247,6 +247,25 @@ export async function getWasteCollectionTasks(limit: number = 20) {
   } catch (error) {
     console.error("Error fetching waste collection tasks:", error);
     return [];
+  }
+}
+
+export async function saveCollectedWaste(reportId: number, collectorId: number, verificationResult: any) {
+  try {
+    const [collectedWaste] = await db
+      .insert(CollectedWastes)
+      .values({
+        reportId,
+        collectorId,
+        collectionDate: new Date(),
+        status: 'verified',
+      })
+      .returning()
+      .execute();
+    return collectedWaste;
+  } catch (error) {
+    console.error("Error saving collected waste:", error);
+    throw error;
   }
 }
 
