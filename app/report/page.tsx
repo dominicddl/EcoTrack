@@ -9,13 +9,13 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { createReport, getRecentReports, getUserByEmail } from '@/utils/db/actions';
 
-const geminiApiKey = process.env.GEMINI_API_KEY as any;
-const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY as any;
+const geminiApiKey = process.env.GEMINI_API_KEY;
+const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
 
 const libraries: Libraries = ['places'];
 
 export default function ReportPage() {
-    const [user, setUser] = useState('') as any;
+    const [user, setUser] = useState<{ id: number; email: string } | null>(null);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
@@ -48,7 +48,7 @@ export default function ReportPage() {
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: googleMapsApiKey,
+        googleMapsApiKey: googleMapsApiKey ?? "",
         libraries: libraries
     });
 
@@ -104,7 +104,7 @@ export default function ReportPage() {
         setVerificationStatus('verifying');
 
         try {
-            const genAI = new GoogleGenerativeAI(geminiApiKey);
+            const genAI = new GoogleGenerativeAI(geminiApiKey ?? "");
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
             const base64data = await readFileAsBase64(file);
             const imageParts = [
@@ -172,14 +172,17 @@ export default function ReportPage() {
         setIsSubmitting(true);
         try {
             const report = await createReport(
-                user.id, 
-                newReport.location, 
-                newReport.wasteType, 
-                newReport.amount, 
-                preview || undefined, 
+                user.id,
+                newReport.location,
+                newReport.wasteType,
+                newReport.amount,
+                preview || undefined,
                 verificationResult ? JSON.stringify(verificationResult) : undefined
-            ) as any;
+            );
 
+            if (!report) {
+                throw new Error('Report creation failed: report is null');
+            }
             const formattedReport = {
                 id: report.id,
                 location: report.location,
@@ -208,13 +211,13 @@ export default function ReportPage() {
         const checkUser = async () => {
             const email = localStorage.getItem('userEmail');
             if (email) {
-                let user = await getUserByEmail(email);
-                setUser(user);
-                
-                const recentReports = await getRecentReports() as any;
-                
+                const userObj = await getUserByEmail(email);
+                setUser(userObj);
+
+                const recentReports = await getRecentReports();
+
                 if (recentReports && Array.isArray(recentReports) && recentReports.length > 0) {
-                    const formattedReports = recentReports.map((report: any) => ({
+                    const formattedReports = recentReports.map((report) => ({
                         ...report,
                         createdAt: report.createdAt.toISOString().split('T')[0]
                     }));
