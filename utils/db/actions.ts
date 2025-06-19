@@ -249,3 +249,27 @@ export async function getWasteCollectionTasks(limit: number = 20) {
     return [];
   }
 }
+
+export async function saveReward(userId: number, amount: number) {
+  try {
+    const [reward] = await db
+      .insert(Rewards)
+      .values({
+        userId,
+        name: 'Waste Collection Reward',
+        collectionInfo: 'Points earned from waste collection',
+        points: amount,
+        isAvailable: true,
+      })
+      .returning()
+      .execute();
+    
+    // Create a transaction for this reward
+    await createTransaction(userId, 'earned_collect', amount, 'Points earned for collecting waste');
+
+    return reward;
+  } catch (error) {
+    console.error("Error saving reward:", error);
+    throw error;
+  }
+}
