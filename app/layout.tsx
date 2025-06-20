@@ -27,8 +27,9 @@ export default function RootLayout({
         if (userEmail) {
           const user = await getUserByEmail(userEmail);
           if (user) {
-            const availableRewards = await getAvailableRewards(user.id) as any;
-            setTotalEarnings(availableRewards);
+            const availableRewards = await getAvailableRewards(user.id);
+            const total = availableRewards.reduce((sum, reward) => sum + Number(reward.cost), 0);
+            setTotalEarnings(total);
           }
         }
       } catch(e) {

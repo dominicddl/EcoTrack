@@ -1,5 +1,5 @@
 import { db } from "./dbConfig";
-import { users } from "./schema";
+import { Users } from "./schema";
 
 /**
  * Simple function to test database connectivity
@@ -9,7 +9,7 @@ async function testDatabaseConnection() {
     console.log("Testing database connection...");
     
     // Try to query the users table
-    const result = await db.select().from(users).limit(1).execute();
+    const result = await db.select().from(Users).limit(1).execute();
     
     console.log("✅ Database connection successful!");
     console.log(`Found ${result.length} users in the database`);
