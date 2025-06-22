@@ -294,10 +294,11 @@ This ensures the AI’s output is easily parsed and directly usable in the app.
 
 - The AI verification is tightly integrated with the reporting workflow, ensuring that only AI-verified data is stored in the database.
 
---- 
+---
 
 #### Implementation Challenges
-Gemini AI sometimes returned responses with extra formatting (such as Markdown code blocks) or incomplete JSON, which caused parsing errors and disrupted the user flow. We tackled this by iteratively refining the prompt to be as explicit as possible, instructing the AI to respond only with a JSON object and nothing else. On the application side, we extracted only the JSON content. This included handling edge cases where the AI might return code fences or additional commentary. 
+
+Gemini AI sometimes returned responses with extra formatting (such as Markdown code blocks) or incomplete JSON, which caused parsing errors and disrupted the user flow. We tackled this by iteratively refining the prompt to be as explicit as possible, instructing the AI to respond only with a JSON object and nothing else. On the application side, we extracted only the JSON content. This included handling edge cases where the AI might return code fences or additional commentary.
 
 ---
 
@@ -317,69 +318,47 @@ Gemini AI sometimes returned responses with extra formatting (such as Markdown c
 
 ---
 
-## Software Engineering Practices and Design
+### 4. Rewards
 
-### Software Engineering Practices
+---
 
-**Primary Architecture: N-tier Architecture with MVC Pattern**
+#### Description
 
-For EcoTrack (an environmental tracking application), we aim to implement a **3-tier layered architecture** combined with the **Model-View-Controller (MVC)** pattern:
+---
 
-```mermaid
-graph TB
-  subgraph PL[Presentation Layer]
-    UI[User Interface]
-    Controllers[Controllers]
-  end
-  subgraph BL[Business Logic Layer]
-    Models[Models/Entities]
-    Services[Business Services]
-    Validators[Data Validators]
-  end
-  subgraph DAL[Data Access Layer]
-    DAO[Data Access Objects]
-    DB[(Database)]
-    APIs[External APIs]
-  end
-  UI --> Controllers
-  Controllers --> Services
-  Controllers --> Models
-  Services --> DAO
-  DAO --> DB
-  DAO --> APIs
-```
+#### Implementation Philosophy
 
-## Design Patterns
+---
 
-### 1. **Model-View-Controller (MVC)**
+#### Implementation Challenges
 
-- **Models**: Represent environmental data (carbon footprint, energy usage, waste tracking)
-- **Views**: User interfaces for data input/visualization
-- **Controllers**: Handle user interactions and coordinate between models and views
+--- 
 
-### 2. **Observer Pattern**
+#### Diagrams
 
-- Perfect for real-time environmental data updates
-- Notify users when thresholds are exceeded (e.g., high carbon footprint)
-- Update dashboards automatically when new data is added
+---
 
-### 3. **Command Pattern**
+### 5. Waste Collection
 
-- Implement undo/redo functionality for data entry
-- Track user actions for audit purposes
-- Useful for batch operations (bulk data import/export)
+---
 
-### 4. **Factory Pattern**
+#### Description
 
-- Create different types of environmental trackers (energy, transportation, waste)
-- Generate appropriate calculators based on data type
-- Support multiple calculation methodologies
+---
 
-### 5. **Strategy Pattern**
+#### Implementation Philosophy
 
-- Different calculation algorithms for carbon footprint
-- Multiple data export formats (PDF, CSV, JSON)
-- Various visualization types (charts, graphs, reports)
+---
+
+#### Implementation Challenges
+
+--- 
+
+#### Diagrams
+
+---
+
+## Unified Modelling Language (UML) Diagrams
 
 ### Sequence Diagram
 
@@ -411,6 +390,7 @@ sequenceDiagram
 ```
 
 ### Class Diagram
+The class diagram below illustrates the core structure of EcoTrack’s system design, following the Model-View-Controller (MVC) pattern within a layered architecture. At the heart of the system are the core database entities—User, Report, CollectedWaste, Reward, Notification, and Transaction—which represent the main data models (Model layer) and encapsulate both data and related business logic. The business logic services, such as DatabaseActions, Web3AuthService, VerificationService, and NotificationService, act as controllers and service layers, orchestrating interactions between the models and handling application workflows like authentication, waste verification, notification delivery, and database operations. The UI components—including Header, Button, Badge, DropdownMenu, RootLayout, and HomePage—constitute the View layer, responsible for rendering the user interface and managing user interactions. Utility classes like MediaQueryHook, DatabaseConfig, and Utils provide supporting functionality for both the UI and backend logic. Relationships between classes are clearly defined: for example, a User can submit multiple Reports, earn Rewards, receive Notifications, and have Transactions, while Reports are linked to CollectedWaste and assigned collectors. Service dependencies and UI component dependencies are also mapped, showing how controllers and views interact with models and utilities. This design enforces separation of concerns, modularity, and scalability, with each layer and component having a well-defined responsibility, thus exemplifying the MVC pattern and supporting maintainable, testable code.
 
 ```mermaid
 classDiagram
@@ -629,7 +609,80 @@ classDiagram
     DatabaseActions ..> DatabaseConfig
 ```
 
-### Summary
+### Entity Relationship Diagram (ERD)
+EcoTrack’s ERD (Entity Relationship Diagram) models a system for tracking waste reports, user activities, and rewards. The core entity is users, who can submit reports about waste, specifying details like location, type, and amount. Each report can be linked to a collector (also a user) and may result in a collected_waste record, tracking collection status and date. Users earn rewards based on their activities, with points and availability status, and all transactions (like earning or redeeming points) are logged in the transactions table. The system also sends notifications to users about relevant events, ensuring engagement and transparency throughout the waste management process.
+
+<img src="/assets/images/ERD.jpeg">
+
+---
+
+## Software Engineering Practices 
+
+#### **Primary Architecture: N-tier Architecture with MVC Pattern**
+
+For EcoTrack (an environmental tracking application), we aim to implement a **3-tier layered architecture** combined with the **Model-View-Controller (MVC)** pattern. This is because EcoTrack adopts an N-tier Architecture with the MVC Pattern to achieve a clear separation of concerns, scalability, and maintainability in its environmental tracking application. By dividing the system into three main layers—Presentation, Business Logic, and Data Access—each layer can focus on a specific responsibility: the Presentation Layer manages user interactions and UI rendering, the Business Logic Layer handles core application rules and data validation, and the Data Access Layer manages communication with databases and external APIs. Integrating the MVC pattern within this structure further organizes the code by separating data models, user interface views, and controllers that handle user input and application flow. This approach not only makes the codebase easier to test and debug but also allows teams to work on different layers independently, supports future enhancements, and ensures that changes in one layer have minimal impact on others, which is essential for a robust, evolving application like EcoTrack.
+
+
+```mermaid
+graph TB
+  subgraph PL[Presentation Layer]
+    UI[User Interface]
+    Controllers[Controllers]
+  end
+  subgraph BL[Business Logic Layer]
+    Models[Models/Entities]
+    Services[Business Services]
+    Validators[Data Validators]
+  end
+  subgraph DAL[Data Access Layer]
+    DAO[Data Access Objects]
+    DB[(Database)]
+    APIs[External APIs]
+  end
+  UI --> Controllers
+  Controllers --> Services
+  Controllers --> Models
+  Services --> DAO
+  DAO --> DB
+  DAO --> APIs
+```
+
+
+### Version Control
+
+---
+
+#### Branching
+
+<img src="/assets/images/github-branching.jpeg" />
+
+We use Git for version control and for facilitating the management of the code. The remote master branch will always have a working set of code at any point in time. To work on new features, we pull from the master branch and branch off to a feature branch with the feature-developer as the naming convention. Working on separate branches prevents cross-contamination of code which complicates the debugging process. Upon completion of the feature, the feature branch is committed and a pull request is performed to merge the new changes into the master branch.
+
+---
+
+#### Pull Requests
+
+<img src="/assets/images/github-PRs.jpeg" />
+
+The pull request feature of Git is utilised when updating the remote master branch. The developer responsible for the feature creates a pull request with the partner assigned as the code reviewer. This enforces communication and prevents incorrect resolution of merge conflicts which introduces unnecessary bugs. Only after the code is reviewed, approved and merge conflicts are resolved will the pull request be successfully completed.
+
+---
+
+#### Issues
+
+<img src="/assets/images/github-issues.jpeg /">
+
+Git Issues were used to keep track of any open issues or existing bugs within the app. Tags were also included to help identify the type of issue be it fixes or potential enhancements. Only when the problem has been resolved will the issue be closed.
+
+---
+
+## Quality Control
+
+### Automated Testing
+
+### User Testing
+
+---
 
 ## Timeline and Development Plan
 
