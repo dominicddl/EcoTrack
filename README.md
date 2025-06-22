@@ -318,44 +318,130 @@ Gemini AI sometimes returned responses with extra formatting (such as Markdown c
 
 ---
 
-### 4. Rewards
+### 4. Waste Collection
 
 ---
 
 #### Description
 
+The Waste Collection feature in EcoTrack enables users to participate in community clean-up efforts by claiming and completing waste collection tasks. Users can browse a list of reported waste sites, filter by location, and select tasks to collect. Upon collecting waste, users upload a verification image, which is analyzed by Gemini AI to confirm that the collected waste matches the original report in both type and quantity. Successful verifications reward users with points, which are tracked in their transaction history and can be redeemed for rewards.
+
 ---
 
 #### Implementation Philosophy
+
+The waste collection system is designed to encourage community engagement, ensure accountability, and streamline the verification process:
+
+- Users can view available collection tasks, claim them, and update their status (pending, in progress, completed, verified). This ensures that each task is clearly tracked and prevents duplication of effort.
+
+- After collection, users upload a photo of the collected waste. Gemini AI is prompted to compare the new image with the original report, confirming both waste type and quantity. The prompt is structured to request a JSON response indicating whether the waste type and quantity match, along with a confidence score.
+
+- The UI provides clear feedback at each step, including task status, verification progress, and reward notifications. Pagination and search functionality make it easy to find relevant tasks.
+
+- Upon successful verification, users are automatically awarded points, which are reflected in their balance and transaction history.
+
 
 ---
 
 #### Implementation Challenges
 
---- 
-
-#### Diagrams
+A significant challenge was ensuring that Gemini AI reliably parsed the verification prompt and returned consistent, parseable JSON responses. Despite carefully engineering the prompt to request only the required fields, we encountered an issue where, regardless of the photo provided, the AI verification consistently failed. This was likely due to either the prompt not being interpreted as intended by the AI or limitations in the model’s ability to compare before-and-after waste images. To address this, we implemented robust error handling for malformed or ambiguous responses and provided clear notifications to users when verification failed, allowing them to retry as needed. However, resolving this persistent verification failure remains an ongoing area of focus.
 
 ---
 
-### 5. Waste Collection
+#### Diagrams
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant CollectPage
+    participant Backend (DB & AI)
+    User->>CollectPage: View waste collection tasks
+    CollectPage->>Backend (DB & AI): Fetch tasks & user info
+    User->>CollectPage: Start/Complete/Verify task
+    CollectPage->>Backend (DB & AI): Update task status
+    alt Verification
+        User->>CollectPage: Upload waste image
+        CollectPage->>Backend (AI): Send image for verification
+        Backend (AI)->>CollectPage: Return verification result
+        CollectPage->>Backend (DB & AI): Save collected waste & assign reward
+    end
+    CollectPage->>User: Show status, rewards, and feedback
+```
+
+<p align="center">
+    <p align="center">
+        <img src="assets/images/waste-collection-page.jpeg" alt="Waste Collection Page"><br>
+        <em>Waste Collection Page</em>
+    </p>
+    <br>
+    <p align="center">
+        <img src="assets/images/collection-verification.jpeg" alt="Collection Verification"><br>
+        <em>Collection Verification</em>
+    </p>
+</p>
+
+---
+
+### 5. Rewards
 
 ---
 
 #### Description
 
+The Rewards feature in EcoTrack motivates users to engage in sustainable actions by awarding points for activities such as reporting waste or collecting litter. Users accumulate points, which are tracked as transactions and reflected in their reward balance. These points can be redeemed for various rewards, such as vouchers or eco-friendly products, which are displayed in a catalog. As of milestone 2, this has yet to be implemented. The Rewards page provides a clear overview of the user's current balance, recent transactions, and available rewards, making the system transparent and engaging.
+
 ---
 
 #### Implementation Philosophy
+
+The rewards system is designed to be transparent, fair, and user-friendly, where
+
+- Every point-earning or redemption action is logged as a transaction, including a description, amount, and date. This ensures users can always see how their balance changes over time.
+
+- The rewards logic is integrated with other features (e.g., reporting waste, collecting litter). When a user completes an eligible action, a transaction is automatically created and the balance is updated in real time.
+
+- The UI clearly displays the user's balance, recent transactions, and available rewards. Redemption buttons are enabled or disabled based on the user's current balance, preventing errors and confusion.
+
+- All reward data, transactions, and user balances are managed in the Neon database. Efficient queries and aggregation ensure fast loading and accurate calculations.
 
 ---
 
 #### Implementation Challenges
 
---- 
+A key challenge we are currently facing is the implementation of a robust and diverse rewards catalogue. While the current system supports point accumulation and redemption, the actual catalogue of rewards is still limited and mostly consists of placeholder items. Integrating real-world rewards—such as vouchers, eco-friendly products, or partnerships with local businesses—requires additional backend logic, third-party integrations, and administrative tools for managing inventory and fulfillment.
+
+This is a significant area of focus for our upcoming Milestone 3, where we plan to expand the rewards catalogue, improve the redemption process, and ensure a seamless experience for both users and administrators.
+
+---
 
 #### Diagrams
 
+```mermaid
+sequenceDiagram
+    participant User
+    participant RewardsPage
+    participant LocalStorage
+    participant Backend
+
+    User->>RewardsPage: Loads page
+    RewardsPage->>LocalStorage: Get current user email
+    LocalStorage-->>RewardsPage: Return user email
+    RewardsPage->>Backend: Fetch user details
+    RewardsPage->>Backend: Fetch reward transactions
+    RewardsPage->>Backend: Fetch available rewards
+    Backend-->>RewardsPage: Return user data, transactions, rewards
+    RewardsPage->>User: Display reward balance, transactions, rewards
+    User->>RewardsPage: Clicks redeem button (optional)
+    RewardsPage->>Backend: Redeem reward (if applicable)
+    Backend-->>RewardsPage: Return updated data
+    RewardsPage->>User: Update UI
+```
+
+<p align="center">
+        <img src="assets/images/rewards-page.jpeg" alt="Rewards page"><br>
+        <em>Rewards page</em>
+    </p>
 ---
 
 ## Unified Modelling Language (UML) Diagrams
@@ -390,6 +476,7 @@ sequenceDiagram
 ```
 
 ### Class Diagram
+
 The class diagram below illustrates the core structure of EcoTrack’s system design, following the Model-View-Controller (MVC) pattern within a layered architecture. At the heart of the system are the core database entities—User, Report, CollectedWaste, Reward, Notification, and Transaction—which represent the main data models (Model layer) and encapsulate both data and related business logic. The business logic services, such as DatabaseActions, Web3AuthService, VerificationService, and NotificationService, act as controllers and service layers, orchestrating interactions between the models and handling application workflows like authentication, waste verification, notification delivery, and database operations. The UI components—including Header, Button, Badge, DropdownMenu, RootLayout, and HomePage—constitute the View layer, responsible for rendering the user interface and managing user interactions. Utility classes like MediaQueryHook, DatabaseConfig, and Utils provide supporting functionality for both the UI and backend logic. Relationships between classes are clearly defined: for example, a User can submit multiple Reports, earn Rewards, receive Notifications, and have Transactions, while Reports are linked to CollectedWaste and assigned collectors. Service dependencies and UI component dependencies are also mapped, showing how controllers and views interact with models and utilities. This design enforces separation of concerns, modularity, and scalability, with each layer and component having a well-defined responsibility, thus exemplifying the MVC pattern and supporting maintainable, testable code.
 
 ```mermaid
@@ -610,18 +697,18 @@ classDiagram
 ```
 
 ### Entity Relationship Diagram (ERD)
+
 EcoTrack’s ERD (Entity Relationship Diagram) models a system for tracking waste reports, user activities, and rewards. The core entity is users, who can submit reports about waste, specifying details like location, type, and amount. Each report can be linked to a collector (also a user) and may result in a collected_waste record, tracking collection status and date. Users earn rewards based on their activities, with points and availability status, and all transactions (like earning or redeeming points) are logged in the transactions table. The system also sends notifications to users about relevant events, ensuring engagement and transparency throughout the waste management process.
 
 <img src="/assets/images/ERD.jpeg">
 
 ---
 
-## Software Engineering Practices 
+## Software Engineering Practices
 
 #### **Primary Architecture: N-tier Architecture with MVC Pattern**
 
 For EcoTrack (an environmental tracking application), we aim to implement a **3-tier layered architecture** combined with the **Model-View-Controller (MVC)** pattern. This is because EcoTrack adopts an N-tier Architecture with the MVC Pattern to achieve a clear separation of concerns, scalability, and maintainability in its environmental tracking application. By dividing the system into three main layers—Presentation, Business Logic, and Data Access—each layer can focus on a specific responsibility: the Presentation Layer manages user interactions and UI rendering, the Business Logic Layer handles core application rules and data validation, and the Data Access Layer manages communication with databases and external APIs. Integrating the MVC pattern within this structure further organizes the code by separating data models, user interface views, and controllers that handle user input and application flow. This approach not only makes the codebase easier to test and debug but also allows teams to work on different layers independently, supports future enhancements, and ensures that changes in one layer have minimal impact on others, which is essential for a robust, evolving application like EcoTrack.
-
 
 ```mermaid
 graph TB
@@ -646,7 +733,6 @@ graph TB
   DAO --> DB
   DAO --> APIs
 ```
-
 
 ### Version Control
 
