@@ -4,38 +4,79 @@ EcoTrack, an AI-powered waste management platform.
 
 Proposed level of achievement: Apollo 11
 
-## Promotional Poster
-<!-- Upload your image (e.g., to the repo's assets/images folder) and use a relative path like below: -->
+## Promotional Posters
+
+<!-- Liftoff -->
 <img src="assets/images/eco-track-poster.jpeg" alt="EcoTrack Poster" height=450 width=300>
 
+<!-- Milestone 1 -->
 
-## Proof-of-Concept : 
+<!-- Milestone 2 -->
+
+<!-- Milestone 3 -->
+
+## Proof-of-Concept :
+
 https://github.com/user-attachments/assets/7405a2f0-2817-4729-8379-8a0e70848eff
-
-
 
 ## Before using the app
 
 ### Limitations
+
 🔍 1. AI Accuracy & Dependence
-	•	Limitation: Reliance on Google Gemini AI for waste classification may lead to incorrect or biased predictions, especially for unclear images.
-	•	Impact: Users may get inaccurate rewards or feedback, reducing trust in the system.
+• Limitation: Reliance on Google Gemini AI for waste classification may lead to incorrect or biased predictions, especially for unclear images.
+• Impact: Users may get inaccurate rewards or feedback, reducing trust in the system.
 
 ⚖️ 2. Verification Bottleneck
-	•	Limitation: Waste report verifications may require human validation in some cases, especially for edge scenarios.
-	•	Impact: Slows down the reward system and notification flow, reducing real-time effectiveness.
+• Limitation: Waste report verifications may require human validation in some cases, especially for edge scenarios.
+• Impact: Slows down the reward system and notification flow, reducing real-time effectiveness.
 
 🔒 3. Web3Auth Adoption Barrier
-	•	Limitation: Not all users (especially older or less tech-savvy ones) are comfortable with Web3 wallet-based authentication.
-	•	Impact: Limits app accessibility and onboarding rate among the general population.
+• Limitation: Not all users (especially older or less tech-savvy ones) are comfortable with Web3 wallet-based authentication.
+• Impact: Limits app accessibility and onboarding rate among the general population.
 
+## Milestone 2 (Prototyping)
 
-## Milestone 1 (Ideation)
 ### Motivation
-EcoTrack aims to address these pain points by empowering both residents and municipal authorities with real-time data, actionable insights, and user-friendly tools to promote responsible waste disposal and recycling. It is designed to incentivize and streamline waste reporting and collection. Our goal is to create a community-driven approach to waste management, rewarding users for their eco-friendly
-actions.
+
+Singapore faces growing challenges in waste management due to rising urbanization and consumption.
+Common issues include:
+
+<ul>
+<li>Low Recycling Rates: Many residents are unsure about proper recycling practices, leading to contamination and reduced recycling efficiency.
+</li>
+<li>Inefficient Collection: Waste bins often overflow or are collected when not full, resulting in resource wastage.
+</li>
+<li>
+Lack of Engagement: Residents have limited visibility into their waste habits and few incentives to improve them.
+</li>
+</ul>
+EcoTrack, an AI-powered waste management platform aims to address these pain points by empowering both residents and municipal authorities with real-time data, actionable insights, and user-friendly tools to promote responsible waste disposal and recycling. It is designed to incentivize and streamline waste reporting and collection. Our goal is to create a community-driven approach to waste management, rewarding users for their eco-friendly actions.
+
+### Aim
+We aim to allow residents to track their waste disposal and recycling habits, provide timely reminders and educational content to encourage correct recycling. At the same time, we also aim to enable authorities to monitor bin fill levels and optimize collection routes and engage users through gamification and community leaderboards to foster sustainable habits. EcoTrack will empower Singapore’s residents and authorities to collaboratively improve waste management practices. By combining education, data-driven insights, and gamification, our app aims to make sustainability a daily habit for all.
+
+### User Stories
+
+As a resident who wants to contribute to a cleaner neighborhood, I want to easily report overflowing or illegal waste via the app, so that authorities can respond quickly and efficiently.
+
+As a resident who recycles regularly, I want to track my recycling habits and see my progress, so I can stay motivated and improve my environmental impact.
+
+As a busy user, I want to receive timely notifications about waste collection schedules and recycling drives, so I never miss important dates or opportunities to participate.
+
+As a waste collector, I want to view optimized collection routes and real-time bin fill levels, so I can make my rounds more efficiently and avoid unnecessary trips.
+
+As a municipal officer, I want to access analytics and reports on waste generation and recycling rates, so I can make informed decisions about resource allocation and public outreach.
+
+As a community leader, I want to organize local clean-up events and track participation through the app, so I can foster greater community involvement.
+
+As a user with limited technical skills, I want the app to have an intuitive interface and clear instructions, so I can be incentivised to use the app.
+
+As a resident who sometimes forgets to sort waste properly, I want the app to provide educational content and AI-powered waste classification, so I can learn and improve my
+sorting habits.
 
 ### Proposed core features
+
 <table>
     <thead>
         <tr>
@@ -118,27 +159,10 @@ actions.
     </tbody>
 </table>
 
-## User Stories
-As a resident who wants to contribute to a cleaner neighborhood, I want to easily report overflowing or illegal waste via the app, so that authorities can respond quickly and efficiently.
+## Software Engineering Practices and Design
 
-As a resident who recycles regularly, I want to track my recycling habits and see my progress, so I can stay motivated and improve my environmental impact.
+### Software Engineering Practices
 
-As a busy user, I want to receive timely notifications about waste collection schedules and recycling drives, so I never miss important dates or opportunities to participate.
-
-As a waste collector, I want to view optimized collection routes and real-time bin fill levels, so I can make my rounds more efficiently and avoid unnecessary trips.
-
-As a municipal officer, I want to access analytics and reports on waste generation and recycling rates, so I can make informed decisions about resource allocation and public outreach.
-
-As a community leader, I want to organize local clean-up events and track participation through the app, so I can foster greater community involvement.
-
-As a user with limited technical skills, I want the app to have an intuitive interface and clear instructions, so I can be incentivised to use the app.
-
-As a resident who sometimes forgets to sort waste properly, I want the app to provide educational content and AI-powered waste classification, so I can learn and improve my
-sorting habits.
-
-## Software Engineering Practices and Design 
-
-### Software Engineering Practices 
 **Primary Architecture: N-tier Architecture with MVC Pattern**
 
 For EcoTrack (an environmental tracking application), we aim to implement a **3-tier layered architecture** combined with the **Model-View-Controller (MVC)** pattern:
@@ -170,30 +194,34 @@ graph TB
 ## Design Patterns
 
 ### 1. **Model-View-Controller (MVC)**
+
 - **Models**: Represent environmental data (carbon footprint, energy usage, waste tracking)
-- **Views**: User interfaces for data input/visualization 
+- **Views**: User interfaces for data input/visualization
 - **Controllers**: Handle user interactions and coordinate between models and views
 
 ### 2. **Observer Pattern**
+
 - Perfect for real-time environmental data updates
 - Notify users when thresholds are exceeded (e.g., high carbon footprint)
 - Update dashboards automatically when new data is added
 
 ### 3. **Command Pattern**
+
 - Implement undo/redo functionality for data entry
 - Track user actions for audit purposes
 - Useful for batch operations (bulk data import/export)
 
 ### 4. **Factory Pattern**
+
 - Create different types of environmental trackers (energy, transportation, waste)
 - Generate appropriate calculators based on data type
 - Support multiple calculation methodologies
 
 ### 5. **Strategy Pattern**
+
 - Different calculation algorithms for carbon footprint
 - Multiple data export formats (PDF, CSV, JSON)
 - Various visualization types (charts, graphs, reports)
-
 
 ### Sequence Diagram
 
@@ -225,6 +253,7 @@ sequenceDiagram
 ```
 
 ### Class Diagram
+
 ```mermaid
 classDiagram
     %% Core Database Entities
@@ -444,32 +473,36 @@ classDiagram
 
 ### Summary
 
-## Timeline and Development Plan 
+## Timeline and Development Plan
+
 ## 📅 EcoTrack Development Timeline & Milestones
 
-| **Milestone** | **Due Date** | **Phase** | **Deliverables** | **Status** | **Features** |
-|---------------|--------------|-----------|------------------|------------|--------------|
-| **Milestone 1** | **June 2, 2024** | **Technical Proof of Concept** | Minimal Working System | **COMPLETED** | • Web3Auth user authentication<br>• Basic home page & dashboard<br>• Waste reporting with image upload<br>• Database integration (PostgreSQL + Drizzle)<br>• Responsive UI components |
-| **Milestone 2** | **June 30, 2024** | **Core Prototype** | Working System with Core Features | **NOT COMPLETED** | • AI-powered waste verification<br>• Rewards points system<br>• Real-time push notifications<br>• User balance tracking<br>• Report status management |
-| **Milestone 3** | **July 28, 2024** | **Extended System** | Full-Featured Application | **NOT COMPLETED** | • Interactive leaderboard & achievements<br>• Admin dashboard & analytics<br>• System optimization & user testing<br>• Bug fixes & UX improvements<br>• Performance enhancements |
+| **Milestone**   | **Due Date**      | **Phase**                      | **Deliverables**                  | **Status**        | **Features**                                                                                                                                                                          |
+| --------------- | ----------------- | ------------------------------ | --------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Milestone 1** | **June 2, 2024**  | **Technical Proof of Concept** | Minimal Working System            | **COMPLETED**     | • Web3Auth user authentication<br>• Basic home page & dashboard<br>• Waste reporting with image upload<br>• Database integration (PostgreSQL + Drizzle)<br>• Responsive UI components |
+| **Milestone 2** | **June 30, 2024** | **Core Prototype**             | Working System with Core Features | **NOT COMPLETED** | • AI-powered waste verification<br>• Rewards points system<br>• Real-time push notifications<br>• User balance tracking<br>• Report status management                                 |
+| **Milestone 3** | **July 28, 2024** | **Extended System**            | Full-Featured Application         | **NOT COMPLETED** | • Interactive leaderboard & achievements<br>• Admin dashboard & analytics<br>• System optimization & user testing<br>• Bug fixes & UX improvements<br>• Performance enhancements      |
 
 ## 🚀 Feature Implementation Progress
 
-### **Milestone 1 - Technical Proof of Concept** 
+### **Milestone 1 - Technical Proof of Concept**
+
 - **Authentication System**: Web3Auth integration with wallet-based login
 - **Frontend Foundation**: Next.js 15 with TypeScript and Tailwind CSS
 - **Database Layer**: PostgreSQL with Drizzle ORM, normalized schema
 - **Core UI Components**: Responsive design with shadcn/ui components
 - **Image Upload**: Integrated waste reporting with photo capture
 
-### **Milestone 2 - Core Prototype** 
+### **Milestone 2 - Core Prototype**
+
 - **AI Verification**: Smart waste classification and validation system
 - **Rewards Engine**: Point-based incentive system with balance tracking
 - **Notification System**: Real-time updates for user actions and rewards
 - **Data Management**: Comprehensive reporting and tracking features
 - **User Experience**: Polished interface with loading states and error handling
 
-### **Milestone 3 - Extended System** 
+### **Milestone 3 - Extended System**
+
 - **Gamification**: Leaderboard system with user rankings and achievements
 - **Analytics Dashboard**: Admin interface for system monitoring and insights
 - **Optimization**: Performance improvements and user feedback integration
@@ -477,4 +510,5 @@ classDiagram
 - **Mobile Responsiveness**: Cross-device compatibility and touch optimization
 
 ## Project Logging
+
 https://docs.google.com/spreadsheets/d/1qt2mJ2I-7t5aVOVSAWLBEEHEN_XpdWWZP9iVdjLWB6Y/edit?gid=0#gid=0
