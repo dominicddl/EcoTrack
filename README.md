@@ -5,7 +5,9 @@ EcoTrack, an AI-powered waste management platform.
 Proposed level of achievement: Apollo 11
 
 ## Promotional Poster
-![6B8243CB-E4A6-4E77-A1F9-9AFA6F937F90](https://github.com/user-attachments/assets/116f18d1-fb03-4fa2-9977-fa8f55039641)
+<!-- Upload your image (e.g., to the repo's assets/images folder) and use a relative path like below: -->
+<img src="assets/images/eco-track-poster.jpeg" alt="EcoTrack Poster" height=450 width=300>
+
 
 ## Proof-of-Concept : 
 https://github.com/user-attachments/assets/7405a2f0-2817-4729-8379-8a0e70848eff
