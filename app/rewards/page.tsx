@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { Coins, ArrowUpRight, ArrowDownRight, Gift, AlertCircle, Loader } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {toast} from 'react-hot-toast';
-import { getUserByEmail, getRewardTransactions, getAvailableRewards, redeemReward, createTransaction } from '@/utils/db/actions'
+import { getAvailableRewards, getRewardTransactions, getUserByEmail } from '@/utils/db/actions';
+
 
 type Transaction = {
     id: number,
@@ -34,12 +35,12 @@ export default function RewardsPage() {
             try {
                 const userEmail = localStorage.getItem('userEmail');
                 if (userEmail) {
-                    const fetchUser = await getUserByEmail(userEmail);
-                    if (fetchUser) {
-                        setUser(fetchUser);
-                        const fetchedTransactions = await getRewardTransactions(fetchUser.id);
+                    const fetchedUser = await getUserByEmail(userEmail);
+                    if (fetchedUser) {
+                        setUser(fetchedUser);
+                        const fetchedTransactions = await getRewardTransactions(fetchedUser.id);
                         setTransactions(fetchedTransactions as Transaction[]);
-                        const fetchedRewards = await getAvailableRewards(fetchUser.id);
+                        const fetchedRewards = await getAvailableRewards(fetchedUser.id);
                         setRewards(fetchedRewards);
 
                         const calculatedBalance = fetchedTransactions?.reduce((acc:any,transaction) => {
@@ -60,7 +61,7 @@ export default function RewardsPage() {
                 setLoading(false);
             }
         };
-        fetchUserDataAndRewards
+        fetchUserDataAndRewards();
     }, []);
 
     if (loading) {
