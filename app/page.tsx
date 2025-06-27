@@ -1,11 +1,9 @@
-'use client';
-import { useState,useEffect } from 'react';
+"use client";
+import { Recycle, Users, Coins, MapPin } from "lucide-react";
 
-import { ArrowRight, Recycle, Users, Coins, MapPin, ChevronRight } from 'lucide-react';
+import { Button } from "@/components/ui/button";
 
-import  { Button } from '@/components/ui/button';
-
-import Link from 'next/link';
+import Link from "next/link";
 
 //makes the special animation for our icon, 4 different divs for each "bounce"
 //can remove if you want a static icon @dom
@@ -25,11 +23,18 @@ export default function Home() {
   return (
     <div className="container mx-auto px-4 py-16">
       <section className="text-center mb-20">
-        <AnimatedIcon/>
-        <h1 className="text-6xl font-bold mb-6 text-gray-800 tracking-tight">EcoTrack <span className="text-green-600"> Waste Management</span></h1>
-        <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-8">Make waste management more efficient and eco-friendly with our AI-powered platform!</p>
+        <AnimatedIcon />
+        <h1 className="text-6xl font-bold mb-6 text-gray-800 tracking-tight">
+          EcoTrack <span className="text-green-600"> Waste Management</span>
+        </h1>
+        <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-8">
+          Make waste management more efficient and eco-friendly with our
+          AI-powered platform!
+        </p>
         <Link href="/report">
-          <Button className="bg-green-600 hover:bg-green-700 text-white text-lg py-6 px-10 rounded-full">Report Waste</Button>
+          <Button className="bg-green-600 hover:bg-green-700 text-white text-lg py-6 px-10 rounded-full">
+            Report Waste
+          </Button>
         </Link>
       </section>
 
@@ -37,36 +42,47 @@ export default function Home() {
         <FeatureCard
           icon={Recycle}
           title="Eco-Friendly"
-          description="Our AI-powered platform helps you make waste management more efficient and eco-friendly."/>
+          description="Our AI-powered platform helps you make waste management more efficient and eco-friendly."
+        />
         <FeatureCard
           icon={Coins}
           title="Get Rewarded"
-          description="Earn tokens and rewards for reporting waste and participating in community cleanup activities."/>
+          description="Earn tokens and rewards for reporting waste and participating in community cleanup activities."
+        />
         <FeatureCard
           icon={Users}
           title="Community Driven"
-          description="Join a community of environmentally conscious citizens working together to create cleaner neighborhoods."/>
+          description="Join a community of environmentally conscious citizens working together to create cleaner neighborhoods."
+        />
       </section>
       <section className="bg-white p-10 rounded-3xl shadow-lg mb-20">
-        <h2 className="text-4xl font-bold mb-12 text-center text-gray-800">Our Impact (numbers are made up for now)</h2>
+        <h2 className="text-4xl font-bold mb-12 text-center text-gray-800">
+          Our Impact (numbers are made up for now)
+        </h2>
         <div className="grid md:grid-cols-4 gap-6">
-          <ImpactCard title="Waste collected" value={'20 Kg'} icon={Recycle}/>
-          <ImpactCard title="Reports Submitted" value={50} icon={MapPin}/>
-          <ImpactCard title="Tokens Earned" value={100} icon={Coins}/>  
-          <ImpactCard title="C02 Offset" value={'50 Kg'} icon={Recycle}/>
+          <ImpactCard title="Waste collected" value={"20 Kg"} icon={Recycle} />
+          <ImpactCard title="Reports Submitted" value={50} icon={MapPin} />
+          <ImpactCard title="Tokens Earned" value={100} icon={Coins} />
+          <ImpactCard title="C02 Offset" value={"50 Kg"} icon={Recycle} />
         </div>
       </section>
-
-
     </div>
-  )
+  );
 }
 
-function FeatureCard({icon:Icon, title, description}:{icon: React.ElementType, title: string, description: string}) {
+function FeatureCard({
+  icon: Icon,
+  title,
+  description,
+}: {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}) {
   return (
     <div className="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 ease-in-out flex flex-col items-center text-center">
       <div className="bg-green-100 p-4 rounded-full mb-6">
-        <Icon className='h-8 w-8 text-green-600'></Icon>
+        <Icon className="h-8 w-8 text-green-600"></Icon>
       </div>
       <h3 className="text-xl font-semibold mb-4 text-gray-800">{title}</h3>
       <p className="text-gray-600 leading-relaxed">{description}</p>
@@ -74,13 +90,20 @@ function FeatureCard({icon:Icon, title, description}:{icon: React.ElementType, t
   );
 }
 
-function ImpactCard({title, value, icon:Icon}: {title: string; value:string|number; icon:React.ElementType}) {
+function ImpactCard({
+  title,
+  value,
+  icon: Icon,
+}: {
+  title: string;
+  value: string | number;
+  icon: React.ElementType;
+}) {
   return (
     <div className="p-6 rounded-xl bg-gray-50 border border-gray-100 transition-all duration-300 ease-in-out hover:shadow-md">
       <Icon className="h-10 w-10 text-green-500 mb-4" />
       <p className="text-3xl font-bold mb-2 text-gray-800">{value}</p>
       <p className="text-sm text-gray-600">{title}</p>
-
     </div>
-  )
+  );
 }

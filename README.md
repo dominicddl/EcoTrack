@@ -15,7 +15,7 @@ Proposed level of achievement: Apollo 11
 
 <!-- Milestone 3 -->
 
-## Proof-of-Concept :
+## Promotional Video :
 
 https://github.com/user-attachments/assets/7405a2f0-2817-4729-8379-8a0e70848eff
 
@@ -763,8 +763,35 @@ Git Issues were used to keep track of any open issues or existing bugs within th
 ---
 
 ## Quality Control
+As part of delivering a minimum viable product, we also wish to ensure that EcoTrack works as intended,
+ensuring that users are able to use EcoTrack without being faced with countless bugs. As such, we employ
+the use of several levels of testing as listed below.
 
 ### Automated Testing
+Automated tests are essential to test features and fix bugs to ensure EcoTrack performs as
+expected. For EcoTrack, we used two main categories of automated testing:
+
+1. Unit Testing
+2. Integration Testing
+
+#### Unit Testing
+The purpose of unit testing is to ensure that small units of code work, such that when bugs arise, we
+know that it is not due to the functions that were already implemented. With such tests, this allows
+us to narrow down what to look for when bugs arises, allowing us to fix errors swiftly.
+
+Due to the extensive amounts of unit testing present, we will display a few of the tests created in our
+README for milestone 2. Note that this list is non-exhaustive and will increase heading into Milestone 3
+
+For our React frontend, we will test our UI components and utility functions using tools using jest.
+
+<!-- Show screenshots for unit testing -->
+
+#### Integration Testing
+Integration testing is used to simulate and mimic user interactions with the app such as
+scrolling, selecting, entering certain texts and clicking on buttons. As of milestone 2, we only have a few user flows and will increase heading into Milestone 3. Jest was also used here.
+
+<!-- Show screenshots for integrated testing -->
+
 
 ### User Testing
 
@@ -777,7 +804,7 @@ Git Issues were used to keep track of any open issues or existing bugs within th
 | **Milestone**   | **Due Date**      | **Phase**                      | **Deliverables**                  | **Status**        | **Features**                                                                                                                                                                          |
 | --------------- | ----------------- | ------------------------------ | --------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Milestone 1** | **June 2, 2024**  | **Technical Proof of Concept** | Minimal Working System            | **COMPLETED**     | • Web3Auth user authentication<br>• Basic home page & dashboard<br>• Waste reporting with image upload<br>• Database integration (PostgreSQL + Drizzle)<br>• Responsive UI components |
-| **Milestone 2** | **June 30, 2024** | **Core Prototype**             | Working System with Core Features | **NOT COMPLETED** | • AI-powered waste verification<br>• Rewards points system<br>• Real-time push notifications<br>• User balance tracking<br>• Report status management                                 |
+| **Milestone 2** | **June 30, 2024** | **Core Prototype**             | Working System with Core Features | **COMPLETED** | • AI-powered waste verification<br>• Rewards points system<br>• Real-time push notifications<br>• User balance tracking<br>• Report status management                                 |
 | **Milestone 3** | **July 28, 2024** | **Extended System**            | Full-Featured Application         | **NOT COMPLETED** | • Interactive leaderboard & achievements<br>• Admin dashboard & analytics<br>• System optimization & user testing<br>• Bug fixes & UX improvements<br>• Performance enhancements      |
 
 ## 🚀 Feature Implementation Progress
@@ -805,6 +832,11 @@ Git Issues were used to keep track of any open issues or existing bugs within th
 - **Optimization**: Performance improvements and user feedback integration
 - **Testing & Refinement**: Bug fixes, UX enhancements, and system stability
 - **Mobile Responsiveness**: Cross-device compatibility and touch optimization
+
+## Proof-of-Concept Video (Prototype)
+<!-- Insert Google drive link -->
+https://drive.google.com/drive/folders/1T468USXM_TYiXcf9otRLfU0ZamnioWds?usp=sharing
+
 
 ## Project Logging
 

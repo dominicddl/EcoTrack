@@ -41,7 +41,12 @@ export default function RewardsPage() {
                         const fetchedTransactions = await getRewardTransactions(fetchedUser.id);
                         setTransactions(fetchedTransactions as Transaction[]);
                         const fetchedRewards = await getAvailableRewards(fetchedUser.id);
-                        setRewards(fetchedRewards);
+                        setRewards(
+                            (fetchedRewards as any[]).map(reward => ({
+                                ...reward,
+                                cost: reward.cost ?? 0
+                            }))
+                        );
 
                         const calculatedBalance = fetchedTransactions?.reduce((acc:any,transaction) => {
                             return transaction.type.startsWith('earned') ? acc + transaction.amount : acc - transaction.amount;
