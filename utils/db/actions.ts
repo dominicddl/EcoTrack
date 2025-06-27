@@ -83,45 +83,63 @@ export async function markNotificationAsRead(notificationId: number) {
     }
 }
 
-export async function createReport(
-    userId: number,
-    location: string,
-    wasteType: string,
-    amount: string,
-    imageUrl?: string,
-    verificationResult? : any
-) {
-    try {
-        const reportData: any = {
-            userId,
-            location,
-            wasteType,
-            amount,
-            status: 'pending'
-        };
-        if (imageUrl !== undefined) reportData.imageUrl = imageUrl;
-        if (verificationResult !== undefined) reportData.verificationResult = verificationResult;
+type CreateReportParams = {
+  userId: number;
+  location: string;
+  wasteType: string;
+  amount: string;
+  imageUrl?: string;
+  verificationResult?: object;
+};
 
-        const [report] = await db.insert(Reports).values(reportData)
-        .returning().execute();
-        /* if (imageUrl !== undefined) reportData.imageUrl = imageUrl;
-        if (verificationResult !== undefined) reportData.verificationResult = verificationResult; */
+export async function createReport({
+  userId,
+  location,
+  wasteType,
+  amount,
+  imageUrl,
+}: CreateReportParams) {
+  try {
+    // Build reportData with only defined optional fields
+    const reportData: {
+      userId: number;
+      location: string;
+      wasteType: string;
+      amount: string;
+      status: string;
+      imageUrl?: string;
+      verificationResult?: object;
+    } = {
+      userId,
+      location,
+      wasteType,
+      amount,
+      status: 'pending'
+    };
 
-        
-        const pointsEarned = 10; // Example points for reporting waste
-
-        //update reward points
-        await updateRewardPoints(userId, pointsEarned);
-        //create transactions
-        await createTransaction(userId, 'earned_report', pointsEarned, 'Points earned for reporting waste');
-        //create nmotifcations
-        await createNotification(userId, `You earned ${pointsEarned} points`, "reward" );
-        
-        return report;
-    } catch (e) {
-        console.error("Error creating report", e);
-        return null;
+    // Only add imageUrl if defined (and not undefined)
+    if (typeof imageUrl === "string") {
+      reportData.imageUrl = imageUrl;
     }
+
+
+    const [report] = await db.insert(Reports).values(reportData as any)
+      .returning().execute();
+ 
+    const pointsEarned = 10; // Example points for reporting waste
+
+    // update reward points
+    await updateRewardPoints(userId, pointsEarned);
+    // create transaction
+    await createTransaction(userId, 'earned_report', pointsEarned, 'Points earned for reporting waste');
+    // create notification
+    await createNotification(userId, `You earned ${pointsEarned} points`, "reward");
+
+    return report;
+  } catch (e) {
+    console.error("Error creating report", e);
+    return null;
+  }
 }
 
 export async function getReportsByUserId(userId: number) {
@@ -191,11 +209,22 @@ export async function getAvailableRewards(userId: number) {
 
         console.log("Fetching available rewards for user:", userId);
 
-        const userTransactions = await getRewardTransactions(userId) as any;
-        const userPoints = userTransactions?.reduce((total:any, transaction:any) => {
+        const userTransactions = await getRewardTransactions(userId) as {
+            id: number;
+            type: string;
+            amount: number;
+            description: string;
+            date: string;
+        }[] | null;
+        const userPoints = userTransactions?.reduce((total: number, transaction: {
+            id: number;
+            type: string;
+            amount: number;
+            description: string;
+            date: string;
+        }) => {
             return transaction.type.startsWith('earned') ? total + transaction.amount : total - transaction.amount;
-        },
-        0 );
+        }, 0 );
 
         const dbRewards = await db.select({
             id: Rewards.id,
@@ -250,7 +279,7 @@ export async function getWasteCollectionTasks(limit: number = 20) {
   }
 }
 
-export async function saveCollectedWaste(reportId: number, collectorId: number, verificationResult: any) {
+export async function saveCollectedWaste(reportId: number, collectorId: number) {
   try {
     const [collectedWaste] = await db
       .insert(CollectedWastes)
@@ -295,7 +324,7 @@ export async function saveReward(userId: number, amount: number) {
 
 export async function updateTaskStatus(reportId: number, newStatus: string, collectorId?: number) {
   try {
-    const updateData: any = { status: newStatus };
+    const updateData: Record<string, unknown> = { status: newStatus };
     if (collectorId !== undefined) {
       updateData.collectorId = collectorId;
     }
