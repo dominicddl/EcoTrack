@@ -444,6 +444,116 @@ sequenceDiagram
     </p>
 ---
 
+## Navigation Flow
+
+### User Journey Overview
+
+The following diagram illustrates the main user navigation paths through EcoTrack:
+
+```mermaid
+flowchart TD
+    A[Landing Page] --> B{User Logged In?}
+    B -->|No| C[Login Modal]
+    B -->|Yes| D[Dashboard/Home]
+    C --> D
+    
+    %% Protected route attempts from homepage
+    A --> E[Click Report Waste]
+    A --> F[Click Collect Waste] 
+    A --> G[Click Rewards]
+    
+    E --> H{Logged In?}
+    F --> I{Logged In?}
+    G --> J{Logged In?}
+    
+    H -->|No| K[Toast: Please log in]
+    I -->|No| K
+    J -->|No| K
+    K --> C
+    
+    H -->|Yes| L[Report Waste Page]
+    I -->|Yes| M[Collect Waste Page]
+    J -->|Yes| N[Rewards Page]
+    
+    %% Authenticated user flows
+    D --> L
+    D --> M
+    D --> N
+    D --> O[Profile/Settings]
+    
+    L --> P[Upload Image]
+    P --> Q[AI Verification]
+    Q --> R[Submit Report]
+    R --> S[Success + Points Earned]
+    
+    M --> T[Browse Available Tasks]
+    T --> U[Claim Task]
+    U --> V[Complete Collection]
+    V --> W[Upload Verification]
+    W --> X[AI Verification]
+    X --> Y[Earn Rewards]
+    
+    N --> Z[View Balance]
+    N --> AA[Transaction History]
+    N --> BB[Redeem Rewards]
+```
+
+### Authentication Flow
+
+The authentication process follows this sequence:
+
+```mermaid
+flowchart TD
+    A[User Clicks Login] --> B[Web3Auth Modal]
+    B --> C[Select Provider]
+    C --> D[OAuth Authentication]
+    D --> E{Success?}
+    E -->|Yes| F[Create/Fetch User Profile]
+    E -->|No| G[Show Error]
+    F --> H[Redirect to Dashboard]
+    G --> B
+    
+    I[User Clicks Logout] --> J[Web3Auth Logout]
+    J --> K[Clear Session Data]
+    K --> L[Redirect to Homepage]
+```
+
+### Page Navigation Structure
+
+```
+Homepage
+├── Report Waste (requires login)
+├── Collect Waste (requires login)  
+├── Rewards (requires login)
+└── Login/Profile
+
+Report Waste
+├── Back to Homepage
+├── AI Verification Flow
+└── Success → Dashboard
+
+Collect Waste  
+├── Back to Homepage
+├── Task Details
+├── Verification Flow
+└── Success → Dashboard
+
+Rewards
+├── Back to Homepage
+├── Transaction History
+└── Redeem Items
+```
+
+### Route Protection
+
+- **Protected Routes**: `/report`, `/collect`, `/rewards`
+- **Unauthenticated Users**: Can only access homepage, receive login prompts for protected routes
+- **Authenticated Users**: Full access to all features with persistent session
+- **Redirect Behavior**: Toast notifications inform users why they need to log in
+- **State Management**: User authentication state maintained via localStorage and Web3Auth
+
+---
+
 ## Unified Modelling Language (UML) Diagrams
 
 ### Sequence Diagram
