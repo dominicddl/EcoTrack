@@ -39,6 +39,7 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
   const [provider, setProvider] = useState<IProvider | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [userAvatar, setUserAvatar] = useState<string | null>(null);
   interface UserInfo {
     email?: string;
     name?: string;
@@ -68,6 +69,12 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
               console.error("Error creating user", error);
             }
           }
+          
+          // Load avatar if available
+          const savedAvatar = localStorage.getItem('userAvatar');
+          if (savedAvatar) {
+            setUserAvatar(savedAvatar);
+          }
         }
       } catch (error) {
         console.error("Error initializing web3auth", error);
@@ -76,6 +83,17 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
       }
     };
     init();
+    
+    // Listen for avatar updates
+    const handleAvatarUpdate = (event: CustomEvent) => {
+      setUserAvatar(event.detail.avatarId);
+    };
+    
+    window.addEventListener('avatarUpdate', handleAvatarUpdate as EventListener);
+    
+    return () => {
+      window.removeEventListener('avatarUpdate', handleAvatarUpdate as EventListener);
+    };
   }, []);
 
   useEffect(() => {
@@ -160,7 +178,9 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
       setProvider(null);
       setLoggedIn(false);
       setUserInfo(null);
+      setUserAvatar(null);
       localStorage.removeItem("userEmail");
+      localStorage.removeItem("userAvatar");
     } catch (error) {
       console.error("Error logging out", error);
     }
@@ -278,7 +298,15 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="flex items-center">
-                  <User className="h-5 w-5 mr-1" />
+                  {userAvatar ? (
+                    <img 
+                      src={`/avatars/${userAvatar}.svg`} 
+                      alt="Avatar" 
+                      className="h-8 w-8 rounded-full mr-1 object-cover"
+                    />
+                  ) : (
+                    <User className="h-5 w-5 mr-1" />
+                  )}
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -287,7 +315,7 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
                   {userInfo ? userInfo.name : "Fetch User Info"}
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/profile">Profile</Link>
+                  <Link href="/avatar">Change Avatar</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={logout}>Sign Out</DropdownMenuItem>
               </DropdownMenuContent>
