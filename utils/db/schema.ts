@@ -28,17 +28,19 @@ export const Reports = pgTable('reports', {
 
 
 // rewards table stores the rewards earned by the user for collecting waste, but not needed yet as part of MS1
-export const Rewards = pgTable('rewards', {
-    id: serial('id').primaryKey(),
-    userId: integer('user_id').notNull().references(() => Users.id).notNull(),
-    points: integer('points').notNull().default(0),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
-    updatedAt: timestamp('updated_at').defaultNow().notNull(),
-    isAvailable: boolean('is_available').notNull().default(true),
-    description: text('description'),
-    name: varchar('name', {length: 256}).notNull(),
-    collectionInfo: text('collection_info').notNull()
+export const Rewards = pgTable("rewards", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => Users.id).notNull(),
+  points: integer("points").notNull().default(0),
+  level: integer("level").notNull().default(1),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  isAvailable: boolean("is_available").notNull().default(true),
+  description: text("description"),
+  name: varchar("name", { length: 255 }).notNull(),
+  collectionInfo: text("collection_info").notNull(),
 });
+
 
 //collected waste table stores the collected waste information by the collector, but not needed yet as part of MS1
 export const CollectedWaste = pgTable('collected_waste', {

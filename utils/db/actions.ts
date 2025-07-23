@@ -123,6 +123,7 @@ export async function createReport({
     }
 
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [report] = await db.insert(Reports).values(reportData as any)
       .returning().execute();
  
@@ -338,5 +339,28 @@ export async function updateTaskStatus(reportId: number, newStatus: string, coll
   } catch (error) {
     console.error("Error updating task status:", error);
     throw error;
+  }
+}
+
+export async function getAllRewards() {
+  try {
+    const rewards = await db
+      .select({
+        id: Rewards.id,
+        userId: Rewards.userId,
+        points: Rewards.points,
+        level: Rewards.level,
+        createdAt: Rewards.createdAt,
+        userName: Users.name,
+      })
+      .from(Rewards)
+      .leftJoin(Users, eq(Rewards.userId, Users.id))
+      .orderBy(desc(Rewards.points))
+      .execute();
+
+    return rewards;
+  } catch (error) {
+    console.error("Error fetching all rewards:", error);
+    return [];
   }
 }
