@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "./ui/button"; 
-import { MapPin, Trash, Coins, Medal, Settings, Home } from "lucide-react";
+import { MapPin, Trash, Coins, Medal, Settings, Home, User } from "lucide-react";
 
 const sidebarItems = [
     {href: '/', label: 'Home', icon: Home},
@@ -9,7 +9,6 @@ const sidebarItems = [
     {href:'/collect', label: 'Collect Waste', icon: Trash},
     {href:'/rewards', label: 'Rewards', icon: Coins},
     {href:'/leaderboard', label: 'Leaderboard', icon: Medal},
-    {href:'/settings', label: 'Settings', icon: Settings},
 ]
 
 interface SidebarProps {
@@ -39,10 +38,10 @@ export default function Sidebar({open}: SidebarProps) {
                 </div>
                 <div className="p-4 border-t border-gray-200">
 
-                    <Link href="/settings" passHref>
-                        <Button variant={pathname === '/settings' ? 'secondary' : 'outline'} className={`w-full py-3 ${pathname === "/settings" ? "bg-green-100 text-green-800" : "text-gray-600 border-gray-300 hover:bg-gray-100"}`}>
-                            <Settings className="mr-3 h-5 w-5" />
-                            <span className="text-base">Settings</span>
+                    <Link href="/profile" passHref>
+                        <Button variant={pathname === '/profile' ? 'secondary' : 'outline'} className={`w-full py-3 ${pathname === "/profile" ? "bg-green-100 text-green-800" : "text-gray-600 border-gray-300 hover:bg-gray-100"}`}>
+                            <User className="mr-3 h-5 w-5" />
+                            <span className="text-base">Profile</span>
                         </Button> 
                     </Link>
                 </div>

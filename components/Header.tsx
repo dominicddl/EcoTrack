@@ -287,9 +287,8 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
                   {userInfo ? userInfo.name : "Fetch User Info"}
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/settings">Profile</Link>
+                  <Link href="/profile">Profile</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem onClick={logout}>Sign Out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
