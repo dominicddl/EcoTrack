@@ -14,6 +14,7 @@ type Transaction = {
 
 export default function ProfilePage() {
   const [user, setUser] = useState<{ id: number; email: string; name: string } | null>(null);
+  const [userAvatar, setUserAvatar] = useState<string | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
@@ -24,6 +25,13 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
+    // Listen for avatar updates
+    const handleAvatarUpdate = (event: CustomEvent) => {
+      setUserAvatar(event.detail.avatarId);
+    };
+    
+    window.addEventListener('avatarUpdate', handleAvatarUpdate as EventListener);
+    
     const fetchUserData = async () => {
       setLoading(true);
       try {
@@ -32,6 +40,13 @@ export default function ProfilePage() {
           const fetchedUser = await getUserByEmail(userEmail);
           if (fetchedUser) {
             setUser(fetchedUser);
+            
+            // Get avatar from localStorage
+            const savedAvatar = localStorage.getItem('userAvatar');
+            if (savedAvatar) {
+              setUserAvatar(savedAvatar);
+            }
+            
             const fetchedTransactions = await getRewardTransactions(fetchedUser.id);
             setTransactions(fetchedTransactions as Transaction[]);
             
@@ -70,6 +85,10 @@ export default function ProfilePage() {
     };
     
     fetchUserData();
+    
+    return () => {
+      window.removeEventListener('avatarUpdate', handleAvatarUpdate as EventListener);
+    };
   }, []);
 
   if (loading) {
@@ -88,7 +107,15 @@ export default function ProfilePage() {
       <div className="bg-white p-6 rounded-xl shadow-lg mb-8">
         <div className="flex items-center mb-6">
           <div className="bg-green-100 p-4 rounded-full">
-            <User className="h-12 w-12 text-green-600" />
+            {userAvatar ? (
+              <img 
+                src={`/avatars/${userAvatar}.svg`} 
+                alt="Avatar" 
+                className="h-12 w-12 rounded-full"
+              />
+            ) : (
+              <User className="h-12 w-12 text-green-600" />
+            )}
           </div>
           <div className="ml-6">
             <h2 className="text-2xl font-semibold text-gray-800">{user?.name || 'User'}</h2>
