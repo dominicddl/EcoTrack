@@ -7,10 +7,10 @@ import { StandaloneSearchBox, useJsApiLoader } from '@react-google-maps/api';
 import { Libraries } from '@react-google-maps/api';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
-import { createReport, getRecentReports, getUserByEmail } from '@/utils/db/actions';
+import { getUserByEmail, createReport, getRecentReports } from '@/utils/db/actions';
 
-const geminiApiKey = process.env.GEMINI_API_KEY;
-const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
+const geminiApiKey = process.env.GEMINI_API_KEY ?? '';
+const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY ?? '';
 
 const libraries: Libraries = ['places'];
 

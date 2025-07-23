@@ -57,7 +57,7 @@ export default function Home() {
       </section>
       <section className="bg-white p-10 rounded-3xl shadow-lg mb-20">
         <h2 className="text-4xl font-bold mb-12 text-center text-gray-800">
-          Our Impact (numbers are made up for now)
+          Our Impact
         </h2>
         <div className="grid md:grid-cols-4 gap-6">
           <ImpactCard title="Waste collected" value={"20 Kg"} icon={Recycle} />
