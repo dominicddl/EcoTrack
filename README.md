@@ -443,6 +443,92 @@ sequenceDiagram
     </p>
 ---
 
+
+### 6. Leaderboard
+
+---
+
+#### Description
+
+The Leaderboard feature in EcoTrack gamifies environmental action by displaying user rankings based on their eco-friendly activities. Users can see their position relative to others, encouraging healthy competition and sustained engagement. The leaderboard shows user rankings based on total points earned.
+
+The leaderboard is automatically updated when users earn points through waste reporting or collection activities, providing real-time feedback on their environmental impact.
+
+---
+
+#### Implementation Philosophy
+
+The leaderboard system is designed to motivate continued participation while maintaining fairness. Rankings are calculated based on verified activities only, with clear point breakdowns show how rankings are determined. We also implemented achievement badges recognize different types of contributions. Overall, the UI emphasizes positive competition and community impact
+
+The implementation focuses on performance, ensuring fast loading of rankings even with many users, and includes pagination for scalability.
+
+---
+
+#### Implementation Challenges
+
+The main challenge in implementing the leaderboard was balancing performance with real-time updates. With potentially thousands of users and frequent point changes, calculating rankings efficiently required careful database optimization. We implemented caching strategies and scheduled updates to manage server load while maintaining near-real-time accuracy.
+
+Another challenge was designing a fair scoring system that encourages consistent participation rather than one-time large contributions. This required careful tuning of point values and the introduction of time-based multipliers.
+
+---
+
+#### Diagrams
+<p align="center">
+    <p align="center">
+        <img src="assets/images/leaderboard-page.jpeg" alt="Leaderboard Page"><br>
+        <em>Leaderboard Page</em>
+    </p>
+</p>
+
+---
+
+### 7. Profile Page
+
+---
+
+#### Description
+
+The Profile Page provides users with a personalized dashboard to manage their EcoTrack experience. Users can:
+
+- View their contribution statistics and achievements
+- Update their profile information and preferences
+- Track their reward history and current point balance
+- See their waste reporting and collection history
+- View their impact metrics (e.g., total waste reported/collected)
+
+The profile page serves as a central hub for users to monitor their environmental impact and manage their account settings.
+
+---
+
+#### Implementation Philosophy
+
+The profile page is designed with user empowerment and transparency in mind:
+
+- Clear visualization of impact metrics and achievements
+- Easy access to account settings and preferences
+- Integration with the rewards and notification systems
+
+The implementation follows a modular approach, allowing for easy addition of new features and customization options as the platform grows.
+
+---
+
+#### Implementation Challenges
+
+A significant challenge was organizing and presenting the diverse range of user data in a way that remains clear and manageable. We needed to balance comprehensive information display with an uncluttered user interface. This was addressed through careful UI/UX design and the use of expandable sections and tabs.
+
+---
+
+#### Diagrams
+
+<p align="center">
+    <p align="center">
+        <img src="assets/images/profile.png" alt="Profile Page"><br>
+        <em>Profile Page</em>
+    </p>
+</p>
+
+---
+
 ## Navigation Flow
 
 ### User Journey Overview
@@ -877,9 +963,9 @@ As part of delivering a minimum viable product, we also wish to ensure that EcoT
 ensuring that users are able to use EcoTrack without being faced with countless bugs. As such, we employ
 the use of several levels of testing as listed below.
 
-### Automated Testing
+### System Testing
 
-Automated tests are essential to test features and fix bugs to ensure EcoTrack performs as
+System testing is essential to test features and fix bugs to ensure EcoTrack performs as
 expected. For EcoTrack, we used two main categories of automated testing:
 
 1. Unit Testing
@@ -901,7 +987,7 @@ For our React frontend, we will test our UI components and utility functions usi
 
 #### Integration Testing
 
-Integration testing is used to simulate and mimic user interactions with the app such as scrolling, selecting, entering certain texts and clicking on buttons. As of milestone 2, we only have a few user flows and will increase heading into Milestone 3. Jest was also used here.
+Integration testing is used to simulate and mimic user interactions with the app such as scrolling, selecting, entering certain texts and clicking on buttons. 
 
 | Test ID | User Story                                                                                                   | Testing Objective                                                           | Steps Taken                                                                                                                                                                                           | Expected Results                                                                                        | Pass/Fail | Date Tested |
 | ------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | --------- | ----------- |
