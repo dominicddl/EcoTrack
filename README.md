@@ -340,7 +340,6 @@ The waste collection system is designed to encourage community engagement, ensur
 
 - Upon successful verification, users are automatically awarded points, which are reflected in their balance and transaction history.
 
-
 ---
 
 #### Implementation Challenges
@@ -442,6 +441,116 @@ sequenceDiagram
         <img src="assets/images/rewards-page.jpeg" alt="Rewards page"><br>
         <em>Rewards page</em>
     </p>
+---
+
+## Navigation Flow
+
+### User Journey Overview
+
+The following diagram illustrates the main user navigation paths through EcoTrack:
+
+```mermaid
+flowchart TD
+    A[Landing Page] --> B{User Logged In?}
+    B -->|No| C[Login Modal]
+    B -->|Yes| D[Dashboard/Home]
+    C --> D
+
+    %% Protected route attempts from homepage
+    A --> E[Click Report Waste]
+    A --> F[Click Collect Waste]
+    A --> G[Click Rewards]
+
+    E --> H{Logged In?}
+    F --> I{Logged In?}
+    G --> J{Logged In?}
+
+    H -->|No| K[Toast: Please log in]
+    I -->|No| K
+    J -->|No| K
+    K --> C
+
+    H -->|Yes| L[Report Waste Page]
+    I -->|Yes| M[Collect Waste Page]
+    J -->|Yes| N[Rewards Page]
+
+    %% Authenticated user flows
+    D --> L
+    D --> M
+    D --> N
+    D --> O[Profile/Settings]
+
+    L --> P[Upload Image]
+    P --> Q[AI Verification]
+    Q --> R[Submit Report]
+    R --> S[Success + Points Earned]
+
+    M --> T[Browse Available Tasks]
+    T --> U[Claim Task]
+    U --> V[Complete Collection]
+    V --> W[Upload Verification]
+    W --> X[AI Verification]
+    X --> Y[Earn Rewards]
+
+    N --> Z[View Balance]
+    N --> AA[Transaction History]
+    N --> BB[Redeem Rewards]
+```
+
+### Authentication Flow
+
+The authentication process follows this sequence:
+
+```mermaid
+flowchart TD
+    A[User Clicks Login] --> B[Web3Auth Modal]
+    B --> C[Select Provider]
+    C --> D[OAuth Authentication]
+    D --> E{Success?}
+    E -->|Yes| F[Create/Fetch User Profile]
+    E -->|No| G[Show Error]
+    F --> H[Redirect to Dashboard]
+    G --> B
+
+    I[User Clicks Logout] --> J[Web3Auth Logout]
+    J --> K[Clear Session Data]
+    K --> L[Redirect to Homepage]
+```
+
+### Page Navigation Structure
+
+```
+Homepage
+├── Report Waste (requires login)
+├── Collect Waste (requires login)
+├── Rewards (requires login)
+└── Login/Profile
+
+Report Waste
+├── Back to Homepage
+├── AI Verification Flow
+└── Success → Dashboard
+
+Collect Waste
+├── Back to Homepage
+├── Task Details
+├── Verification Flow
+└── Success → Dashboard
+
+Rewards
+├── Back to Homepage
+├── Transaction History
+└── Redeem Items
+```
+
+### Route Protection
+
+- **Protected Routes**: `/report`, `/collect`, `/rewards`
+- **Unauthenticated Users**: Can only access homepage, receive login prompts for protected routes
+- **Authenticated Users**: Full access to all features with persistent session
+- **Redirect Behavior**: Toast notifications inform users why they need to log in
+- **State Management**: User authentication state maintained via localStorage and Web3Auth
+
 ---
 
 ## Unified Modelling Language (UML) Diagrams
@@ -763,11 +872,13 @@ Git Issues were used to keep track of any open issues or existing bugs within th
 ---
 
 ## Quality Control
+
 As part of delivering a minimum viable product, we also wish to ensure that EcoTrack works as intended,
 ensuring that users are able to use EcoTrack without being faced with countless bugs. As such, we employ
 the use of several levels of testing as listed below.
 
 ### Automated Testing
+
 Automated tests are essential to test features and fix bugs to ensure EcoTrack performs as
 expected. For EcoTrack, we used two main categories of automated testing:
 
@@ -775,6 +886,7 @@ expected. For EcoTrack, we used two main categories of automated testing:
 2. Integration Testing
 
 #### Unit Testing
+
 The purpose of unit testing is to ensure that small units of code work, such that when bugs arise, we
 know that it is not due to the functions that were already implemented. With such tests, this allows
 us to narrow down what to look for when bugs arises, allowing us to fix errors swiftly.
@@ -786,28 +898,45 @@ For our React frontend, we will test our UI components and utility functions usi
 
 <!-- Show screenshots for unit testing -->
 
+
 #### Integration Testing
-Integration testing is used to simulate and mimic user interactions with the app such as
-scrolling, selecting, entering certain texts and clicking on buttons. As of milestone 2, we only have a few user flows and will increase heading into Milestone 3. Jest was also used here.
+
+Integration testing is used to simulate and mimic user interactions with the app such as scrolling, selecting, entering certain texts and clicking on buttons. As of milestone 2, we only have a few user flows and will increase heading into Milestone 3. Jest was also used here.
+
+| Test ID | User Story                                                                                                   | Testing Objective                                                           | Steps Taken                                                                                                                                                                                           | Expected Results                                                                                        | Pass/Fail | Date Tested |
+| ------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| 1       | As a new user, I want to log in or create an account using Web3Auth so I can access EcoTrack features.       | Test the ability to authenticate and onboard a new user.                    | 1. Launch the app<br>2. Click "Login"<br>3. Select a provider (e.g., Google)<br>4. Complete OAuth flow<br>5. App fetches/creates user profile<br>6. User is redirected to dashboard                   | User is authenticated, profile is created if new, and dashboard is shown                                |           |             |
+| 2       | As a user, I want to report waste by uploading an image and location so authorities can be notified.         | Test the waste reporting flow with image and location input.                | 1. Log in<br>2. Navigate to "Report Waste"<br>3. Upload a waste image<br>4. Enter/select location<br>5. (Optional) Add description<br>6. Click "Submit"<br>7. Confirm submission                      | Waste report is created, confirmation is shown, and user may receive points                             |           |             |
+| 3       | As a user, I want the app to verify my waste report using AI so I can get accurate feedback and rewards.     | Test AI verification of waste type and quantity from uploaded image.        | 1. Log in<br>2. Go to "Report Waste"<br>3. Upload image<br>4. Click "Verify Waste"<br>5. Wait for AI response<br>6. Review AI results<br>7. Submit report                                             | AI returns waste type, quantity, and confidence; user can submit only if valid                          |           |             |
+| 4       | As a user, I want to view and claim waste collection tasks so I can participate in clean-up efforts.         | Test browsing, claiming, and updating status of collection tasks.           | 1. Log in<br>2. Go to "Collect Waste"<br>3. Browse available tasks<br>4. Claim a task<br>5. Mark as in progress/completed                                                                             | Task status updates, user is assigned as collector, and progress is tracked                             |           |             |
+| 5       | As a user, I want to upload a verification image after collecting waste so I can earn rewards.               | Test post-collection verification and reward assignment.                    | 1. Log in<br>2. Claim a collection task<br>3. Upload verification image<br>4. Click "Verify Collection"<br>5. Wait for AI to compare images<br>6. Receive result and points                           | AI confirms collection, user is awarded points, and status is updated                                   |           |             |
+| 6       | As a user, I want to view my rewards balance and transaction history so I can track my eco-friendly actions. | Test rewards page for balance, transactions, and redemption.                | 1. Log in<br>2. Go to "Rewards"<br>3. View balance and transactions<br>4. Attempt to redeem a reward (if eligible)                                                                                    | Balance and transactions are shown; redemption works if points are sufficient                           |           |             |
+| 7       | As a user, I want to view the leaderboard so I can see how my eco-friendly actions compare to others.        | Test the leaderboard feature for displaying user rankings and achievements. | 1. Log in<br>2. Navigate to "Leaderboard" page<br>3. Observe the list of top users and their points<br>4. Check your own ranking and achievements<br>5. Confirm leaderboard updates after new actions | Leaderboard displays accurate rankings, user’s position is visible, and updates reflect recent activity |           |             |
 
 <!-- Show screenshots for integrated testing -->
 
-
 ### User Testing
 
----
+Apart from automated testing, user testing was conducted with personnels whose criteria meets the target audience. User testing is the process of having end users test and evaluate the product or feature.
+
+Below are the summarised results that we have obtained through conducting user testing with 10 users.
+
+<!-- Insert Table When Completed -->
+<p align="center">
+        <img src="assets/images/user-feedback.png" alt="User Feedback Table"><br>
+    </p>
+
+Summary of Post-Interview Questions
+| Question | Sample Answer |
+|------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| On a scale of 1 - 10, how likely are you to use this app? Why? | 8 – I care about sustainability and the app makes it easy to report waste. The rewards and leaderboard features motivate me to participate. |
+| On a scale of 1 - 10, what is your overall experience with the app? Why? | 7 – The app is visually appealing and the main features work, but there are a few bugs and some features could be more polished. |
+| What are some things that can be improved on? | Faster image upload, more user-friendly location input, more variety in rewards, and faster loading times on some pages. |
+| On a scale of 1 - 10, how difficult was it to navigate the app and how intuitive was the UI? Why? | 7 – Navigation was mostly straightforward, but some features were hard to find. Clearer icons/labels and an onboarding tutorial would help. |
+| What are some parts of the app you disliked? | The Web3Auth login was confusing, lack of instant feedback after submitting a report, and some pages (like rewards) felt incomplete.|
+| Additional Comments | Overall, EcoTrack is promising and useful, but a few usability improvements and more complete features would make it even better. |
 
 ## Timeline and Development Plan
-
-## 📅 EcoTrack Development Timeline & Milestones
-
-| **Milestone**   | **Due Date**      | **Phase**                      | **Deliverables**                  | **Status**        | **Features**                                                                                                                                                                          |
-| --------------- | ----------------- | ------------------------------ | --------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Milestone 1** | **June 2, 2024**  | **Technical Proof of Concept** | Minimal Working System            | **COMPLETED**     | • Web3Auth user authentication<br>• Basic home page & dashboard<br>• Waste reporting with image upload<br>• Database integration (PostgreSQL + Drizzle)<br>• Responsive UI components |
-| **Milestone 2** | **June 30, 2024** | **Core Prototype**             | Working System with Core Features | **COMPLETED** | • AI-powered waste verification<br>• Rewards points system<br>• Real-time push notifications<br>• User balance tracking<br>• Report status management                                 |
-| **Milestone 3** | **July 28, 2024** | **Extended System**            | Full-Featured Application         | **NOT COMPLETED** | • Interactive leaderboard & achievements<br>• Admin dashboard & analytics<br>• System optimization & user testing<br>• Bug fixes & UX improvements<br>• Performance enhancements      |
-
-## 🚀 Feature Implementation Progress
 
 ### **Milestone 1 - Technical Proof of Concept**
 
@@ -828,15 +957,25 @@ scrolling, selecting, entering certain texts and clicking on buttons. As of mile
 ### **Milestone 3 - Extended System**
 
 - **Gamification**: Leaderboard system with user rankings and achievements
-- **Analytics Dashboard**: Admin interface for system monitoring and insights
+- **Settings/Profile Page**: Settings/Profile page for user preferences
 - **Optimization**: Performance improvements and user feedback integration
 - **Testing & Refinement**: Bug fixes, UX enhancements, and system stability
-- **Mobile Responsiveness**: Cross-device compatibility and touch optimization
+
+<p align="center">
+    <p align="center">
+        <img src="assets/images/timeline1.jpeg" alt="Timeline 1 Table"><br>
+    </p>
+    <br>
+    <p align="center">
+        <img src="assets/images/timeline2.jpeg" alt="Timeline 2 Table"><br>
+    </p>
+</p>
 
 ## Proof-of-Concept Video (Prototype)
-<!-- Insert Google drive link -->
-https://drive.google.com/drive/folders/1T468USXM_TYiXcf9otRLfU0ZamnioWds?usp=sharing
 
+<!-- Insert Google drive link -->
+
+https://drive.google.com/drive/folders/1T468USXM_TYiXcf9otRLfU0ZamnioWds?usp=sharing
 
 ## Project Logging
 
