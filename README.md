@@ -35,7 +35,7 @@ https://github.com/user-attachments/assets/7405a2f0-2817-4729-8379-8a0e70848eff
 • Limitation: Not all users (especially older or less tech-savvy ones) are comfortable with Web3 wallet-based authentication.
 • Impact: Limits app accessibility and onboarding rate among the general population.
 
-## Milestone 2 (Prototyping)
+## Milestone 3 (Polishing)
 
 ### Motivation
 
@@ -639,6 +639,17 @@ Rewards
 
 ---
 
+## Wireframe
+<img src="/assets/images/wireframes.png" />
+
+---
+
+## User Interface Design
+<img src="/assets/images/ui-mockups1.png" />
+<img src="/assets/images/ui-mockups2.png" />
+
+---
+
 ## Unified Modelling Language (UML) Diagrams
 
 ### Sequence Diagram
@@ -991,13 +1002,13 @@ Integration testing is used to simulate and mimic user interactions with the app
 
 | Test ID | User Story                                                                                                   | Testing Objective                                                           | Steps Taken                                                                                                                                                                                           | Expected Results                                                                                        | Pass/Fail | Date Tested |
 | ------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| 1       | As a new user, I want to log in or create an account using Web3Auth so I can access EcoTrack features.       | Test the ability to authenticate and onboard a new user.                    | 1. Launch the app<br>2. Click "Login"<br>3. Select a provider (e.g., Google)<br>4. Complete OAuth flow<br>5. App fetches/creates user profile<br>6. User is redirected to dashboard                   | User is authenticated, profile is created if new, and dashboard is shown                                |           |             |
-| 2       | As a user, I want to report waste by uploading an image and location so authorities can be notified.         | Test the waste reporting flow with image and location input.                | 1. Log in<br>2. Navigate to "Report Waste"<br>3. Upload a waste image<br>4. Enter/select location<br>5. (Optional) Add description<br>6. Click "Submit"<br>7. Confirm submission                      | Waste report is created, confirmation is shown, and user may receive points                             |           |             |
-| 3       | As a user, I want the app to verify my waste report using AI so I can get accurate feedback and rewards.     | Test AI verification of waste type and quantity from uploaded image.        | 1. Log in<br>2. Go to "Report Waste"<br>3. Upload image<br>4. Click "Verify Waste"<br>5. Wait for AI response<br>6. Review AI results<br>7. Submit report                                             | AI returns waste type, quantity, and confidence; user can submit only if valid                          |           |             |
-| 4       | As a user, I want to view and claim waste collection tasks so I can participate in clean-up efforts.         | Test browsing, claiming, and updating status of collection tasks.           | 1. Log in<br>2. Go to "Collect Waste"<br>3. Browse available tasks<br>4. Claim a task<br>5. Mark as in progress/completed                                                                             | Task status updates, user is assigned as collector, and progress is tracked                             |           |             |
-| 5       | As a user, I want to upload a verification image after collecting waste so I can earn rewards.               | Test post-collection verification and reward assignment.                    | 1. Log in<br>2. Claim a collection task<br>3. Upload verification image<br>4. Click "Verify Collection"<br>5. Wait for AI to compare images<br>6. Receive result and points                           | AI confirms collection, user is awarded points, and status is updated                                   |           |             |
-| 6       | As a user, I want to view my rewards balance and transaction history so I can track my eco-friendly actions. | Test rewards page for balance, transactions, and redemption.                | 1. Log in<br>2. Go to "Rewards"<br>3. View balance and transactions<br>4. Attempt to redeem a reward (if eligible)                                                                                    | Balance and transactions are shown; redemption works if points are sufficient                           |           |             |
-| 7       | As a user, I want to view the leaderboard so I can see how my eco-friendly actions compare to others.        | Test the leaderboard feature for displaying user rankings and achievements. | 1. Log in<br>2. Navigate to "Leaderboard" page<br>3. Observe the list of top users and their points<br>4. Check your own ranking and achievements<br>5. Confirm leaderboard updates after new actions | Leaderboard displays accurate rankings, user’s position is visible, and updates reflect recent activity |           |             |
+| 1       | As a new user, I want to log in or create an account using Web3Auth so I can access EcoTrack features.       | Test the ability to authenticate and onboard a new user.                    | 1. Launch the app<br>2. Click "Login"<br>3. Select a provider (e.g., Google)<br>4. Complete OAuth flow<br>5. App fetches/creates user profile<br>6. User is redirected to dashboard                   | User is authenticated, profile is created if new, and dashboard is shown                                | Pass      | 18/07/2024  |
+| 2       | As a user, I want to report waste by uploading an image and location so authorities can be notified.         | Test the waste reporting flow with image and location input.                | 1. Log in<br>2. Navigate to "Report Waste"<br>3. Upload a waste image<br>4. Enter/select location<br>5. (Optional) Add description<br>6. Click "Submit"<br>7. Confirm submission                      | Waste report is created, confirmation is shown, and user may receive points                             | Pass      | 19/07/2024  |
+| 3       | As a user, I want the app to verify my waste report using AI so I can get accurate feedback and rewards.     | Test AI verification of waste type and quantity from uploaded image.        | 1. Log in<br>2. Go to "Report Waste"<br>3. Upload image<br>4. Click "Verify Waste"<br>5. Wait for AI response<br>6. Review AI results<br>7. Submit report                                             | AI returns waste type, quantity, and confidence; user can submit only if valid                          | Pass      | 20/07/2024  |
+| 4       | As a user, I want to view and claim waste collection tasks so I can participate in clean-up efforts.         | Test browsing, claiming, and updating status of collection tasks.           | 1. Log in<br>2. Go to "Collect Waste"<br>3. Browse available tasks<br>4. Claim a task<br>5. Mark as in progress/completed                                                                             | Task status updates, user is assigned as collector, and progress is tracked                             | Pass      | 21/07/2024  |
+| 5       | As a user, I want to upload a verification image after collecting waste so I can earn rewards.               | Test post-collection verification and reward assignment.                    | 1. Log in<br>2. Claim a collection task<br>3. Upload verification image<br>4. Click "Verify Collection"<br>5. Wait for AI to compare images<br>6. Receive result and points                           | AI confirms collection, user is awarded points, and status is updated                                   | Pass      | 22/07/2024  |
+| 6       | As a user, I want to view my rewards balance and transaction history so I can track my eco-friendly actions. | Test rewards page for balance, transactions, and redemption.                | 1. Log in<br>2. Go to "Rewards"<br>3. View balance and transactions<br>4. Attempt to redeem a reward (if eligible)                                                                                    | Balance and transactions are shown; redemption works if points are sufficient                           | Pass      | 23/07/2024  |
+| 7       | As a user, I want to view the leaderboard so I can see how my eco-friendly actions compare to others.        | Test the leaderboard feature for displaying user rankings and achievements. | 1. Log in<br>2. Navigate to "Leaderboard" page<br>3. Observe the list of top users and their points<br>4. Check your own ranking and achievements<br>5. Confirm leaderboard updates after new actions | Leaderboard displays accurate rankings, user's position is visible, and updates reflect recent activity | Pass      | 24/07/2024  |
 
 <!-- Show screenshots for integrated testing -->
 

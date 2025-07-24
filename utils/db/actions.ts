@@ -292,7 +292,6 @@ export async function saveCollectedWaste(reportId: number, collectorId: number, 
 
 export async function updateTaskStatus(reportId: number, newStatus: string, collectorId?: number) {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateData: any = { status: newStatus };
     if (collectorId !== undefined) {
       updateData.collectorId = collectorId;
