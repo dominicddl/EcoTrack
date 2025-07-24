@@ -443,7 +443,6 @@ sequenceDiagram
     </p>
 ---
 
-
 ### 6. Leaderboard
 
 ---
@@ -473,6 +472,7 @@ Another challenge was designing a fair scoring system that encourages consistent
 ---
 
 #### Diagrams
+
 <p align="center">
     <p align="center">
         <img src="assets/images/leaderboard-page.jpeg" alt="Leaderboard Page"><br>
@@ -640,11 +640,13 @@ Rewards
 ---
 
 ## Wireframe
+
 <img src="/assets/images/wireframes.png" />
 
 ---
 
 ## User Interface Design
+
 <img src="/assets/images/ui-mockups1.png" />
 <img src="/assets/images/ui-mockups2.png" />
 
@@ -968,6 +970,14 @@ Git Issues were used to keep track of any open issues or existing bugs within th
 
 ---
 
+#### Security Measures
+
+We use environment variables stored in a `.env` file to manage sensitive information and configuration secrets securely. This includes API keys, database connection strings, authentication secrets, and other credentials required by the application. By keeping these values in `.env` and out of the codebase, we prevent accidental exposure of secrets in version control (e.g., GitHub). The `.env` file is included in `.gitignore` to ensure it is never committed to the repository.
+
+This approach helps protect user data, prevents unauthorized access, and supports secure deployment across different environments.
+
+---
+
 ## Quality Control
 
 As part of delivering a minimum viable product, we also wish to ensure that EcoTrack works as intended,
@@ -994,11 +1004,26 @@ README for milestone 2. Note that this list is non-exhaustive and will increase 
 For our React frontend, we will test our UI components and utility functions using tools using jest.
 
 <!-- Show screenshots for unit testing -->
+<p align="center">
+        <img src="assets/images/unit-test-results.jpeg" alt="Unit Test Results"><br>
+        <em>Unit Test Results</em>
+    </p>
 
+| Test ID | User Story | Testing Objective | Steps Taken | Expected Results | Pass/Fail | Date Tested |
+|---------|------------|-------------------|-------------|------------------|-----------|-------------|
+| 1 | As a new user, I want to create an account so that I can access the reward system | Verify that createUser function successfully creates a new user | 1. Mock database insert operation<br>2. Call createUser with email and name<br>3. Verify returned user object | User object returned with id: 1, email: 'test@example.com', name: 'Test User' | Pass | 2025-07-25 |
+| 2 | As a system, I need to retrieve user information by email for authentication | Verify that getUserByEmail function fetches user data correctly | 1. Mock database select operation<br>2. Call getUserByEmail with test email<br>3. Verify returned user data | User object returned with correct email and user details | Pass | 2025-07-25 |
+| 3 | As a user, I want to see my current balance so that I know how many points I have | Verify that getUserBalance never returns negative values | 1. Mock transactions with net negative balance (earned: 10, redeemed: 20)<br>2. Call getUserBalance function<br>3. Verify balance is not negative | Balance returns 0 instead of -10 when calculations would result in negative | Pass | 2025-07-25 |
+| 4 | As a user, I want to earn points for reporting so that I can be rewarded for my contributions | Verify that createTransaction function creates reward transactions | 1. Mock database insert operation<br>2. Call createTransaction with 'earned_report' type<br>3. Verify transaction creation | Transaction created successfully with correct type and amount | Pass | 2025-07-25 |
+| 5 | As a user, I want to receive notifications so that I stay informed about my account activity | Verify that createNotification function works correctly | 1. Mock database insert operation<br>2. Call createNotification with test message<br>3. Verify notification creation | Notification created successfully with correct message and type | Pass | 2025-07-25 |
+| 6 | As a user, I want to see my unread notifications so that I don't miss important updates | Verify that getUnreadNotifications retrieves unread notifications | 1. Mock database select operation<br>2. Call getUnreadNotifications for test user<br>3. Verify array is returned | Array of unread notifications returned successfully | Pass | 2025-07-25 |
+| 7 | As a user, I want to mark notifications as read so that I can manage my notification list | Verify that markNotificationAsRead updates notification status | 1. Mock database update operation<br>2. Call markNotificationAsRead with notification ID<br>3. Verify update operation called | Database update operation executed successfully | Pass | 2025-07-25 |
+| 8 | As a user, I want to view my reward transaction history so that I can track my earnings | Verify that getRewardTransactions fetches transaction history | 1. Mock database select with sample transactions<br>2. Call getRewardTransactions for test user<br>3. Verify transaction array structure | Array returned with transactions containing type, amount, and other required properties | Pass | 2025-07-25 |
+| 9 | As a system, I need to format dates consistently so that transaction dates are readable | Verify that getRewardTransactions formats dates in YYYY-MM-DD format | 1. Mock transactions with Date objects<br>2. Call getRewardTransactions function<br>3. Check date format in returned data | Transaction dates formatted as YYYY-MM-DD strings | Pass | 2025-07-25 |
 
 #### Integration Testing
 
-Integration testing is used to simulate and mimic user interactions with the app such as scrolling, selecting, entering certain texts and clicking on buttons. 
+Integration testing is used to simulate and mimic user interactions with the app such as scrolling, selecting, entering certain texts and clicking on buttons.
 
 | Test ID | User Story                                                                                                   | Testing Objective                                                           | Steps Taken                                                                                                                                                                                           | Expected Results                                                                                        | Pass/Fail | Date Tested |
 | ------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | --------- | ----------- |
