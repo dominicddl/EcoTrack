@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @next/next/no-img-element */
 'use client'
 import { useState, useEffect } from "react"
 import Link from "next/link"
@@ -50,39 +52,57 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [balance, setBalance] = useState<number>(0);
 
+  // Initialize Web3Auth early
   useEffect(() => {
     const init = async () => {
       try {
+        setLoading(true);
         await web3auth.init();
-        setProvider(web3auth.provider);
-
+        
+        // Check if already connected
         if (web3auth.connected) {
           setLoggedIn(true);
+          setProvider(web3auth.provider);
           const user = await web3auth.getUserInfo();
           setUserInfo(user);
+          localStorage.setItem("isLoggedIn", "true");
 
           if (user.email) {
             localStorage.setItem("userEmail", user.email);
+            localStorage.setItem("isLoggedIn", "true");
             try {
               await createUser(user.email, user.name || "Anonymous user");
             } catch (error) {
-              console.error("Error creating user", error);
+              console.error("Error creating user:", error);
             }
           }
-          
-          // Load avatar if available
-          const savedAvatar = localStorage.getItem('userAvatar');
-          if (savedAvatar) {
-            setUserAvatar(savedAvatar);
-          }
+        }
+
+        // Load avatar if available
+        const savedAvatar = localStorage.getItem('userAvatar');
+        if (savedAvatar) {
+          setUserAvatar(savedAvatar);
         }
       } catch (error) {
-        console.error("Error initializing web3auth", error);
+        console.error("Error initializing Web3Auth:", error);
+        setLoggedIn(false);
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("isLoggedIn");
       } finally {
         setLoading(false);
       }
     };
+
+    // Check local storage for login state
+    const checkLoginState = () => {
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      if (isLoggedIn) {
+        setLoggedIn(true);
+      }
+    };
+
     init();
+    checkLoginState();
     
     // Listen for avatar updates
     const handleAvatarUpdate = (event: CustomEvent) => {
@@ -150,21 +170,32 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
       return;
     }
     try {
-      const web3authProivder = await web3auth.connect();
-      setProvider(web3authProivder);
-      setLoggedIn(true);
-      const user = await web3auth.getUserInfo();
-      setUserInfo(user);
-      if (user.email) {
-        localStorage.setItem("userEmail", user.email);
-        try {
-          await createUser(user.email, user.name || "Anonymous user");
-        } catch (error) {
-          console.error("Error creating user", error);
+      const web3authProvider = await web3auth.connect();
+      setProvider(web3authProvider);
+      if (web3authProvider) {
+        setLoggedIn(true);
+        const user = await web3auth.getUserInfo();
+        setUserInfo(user);
+        if (user.email) {
+          localStorage.setItem("userEmail", user.email);
+          localStorage.setItem("isLoggedIn", "true");
+          try {
+            await createUser(user.email, user.name || "Anonymous user");
+          } catch (error) {
+            console.error("Error creating user:", error);
+          }
         }
       }
     } catch (error) {
-      console.error("Error logging in", error);
+      console.error("Error logging in:", error);
+      setLoggedIn(false);
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("isLoggedIn");
+      if (error instanceof Error && error.message.includes('User closed modal')) {
+        console.log("User cancelled login");
+        return;
+      }
+      alert("Failed to login. Please try again and make sure popups are enabled.");
     }
   };
 
@@ -181,8 +212,9 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
       setUserAvatar(null);
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userAvatar");
+      localStorage.removeItem("isLoggedIn");
     } catch (error) {
-      console.error("Error logging out", error);
+      console.error("Error logging out:", error);
     }
   };
 

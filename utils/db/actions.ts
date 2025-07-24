@@ -334,7 +334,7 @@ export async function getAllRewards() {
 
 export async function getRewardTransactions(userId: number) {
   try {
-    console.log('Fetching transactions for user ID:', userId)
+    console.log('Fetching transactions for user ID:', userId);
     const transactions = await db
       .select({
         id: Transactions.id,
@@ -349,14 +349,14 @@ export async function getRewardTransactions(userId: number) {
       .limit(10)
       .execute();
 
-    console.log('Raw transactions from database:', transactions)
+    console.log('Raw transactions from database:', transactions);
 
     const formattedTransactions = transactions.map(t => ({
       ...t,
       date: t.date.toISOString().split('T')[0], // Format date as YYYY-MM-DD
     }));
 
-    console.log('Formatted transactions:', formattedTransactions)
+    console.log('Formatted transactions:', formattedTransactions);
     return formattedTransactions;
   } catch (error) {
     console.error("Error fetching reward transactions:", error);
@@ -473,9 +473,14 @@ export async function redeemReward(userId: number, rewardId: number) {
 }
 
 export async function getUserBalance(userId: number): Promise<number> {
-  const transactions = await getRewardTransactions(userId);
-  const balance = transactions.reduce((acc, transaction) => {
-    return transaction.type.startsWith('earned') ? acc + transaction.amount : acc - transaction.amount
-  }, 0);
-  return Math.max(balance, 0); // Ensure balance is never negative
+  try {
+    const transactions = await getRewardTransactions(userId);
+    const balance = transactions.reduce((acc, transaction) => {
+      return transaction.type.startsWith('earned') ? acc + transaction.amount : acc - transaction.amount;
+    }, 0);
+    return Math.max(balance, 0); // Ensure balance is never negative
+  } catch (error) {
+    console.error("Error calculating user balance:", error);
+    return 0;
+  }
 }

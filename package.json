@@ -1,12 +1,13 @@
 {
-  "name": "ecotrack",
+  "name": "eco-track",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "jest",
     "db:push": "drizzle-kit push",
     "db:studio": "npx drizzle-kit studio"
   },
@@ -37,6 +38,8 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-typescript": "^7.27.1",
     "@eslint/eslintrc": "^3",
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
