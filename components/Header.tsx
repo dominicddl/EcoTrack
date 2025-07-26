@@ -245,25 +245,28 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
   }
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="flex items-center justify-between px-4 py-2">
+    <header className="eco-glass border-b border-green-200/30 sticky top-0 z-50 backdrop-blur-md">
+      <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center">
           <Button
             variant="ghost"
             size="icon"
-            className="mr-2 md:mr-4"
+            className="mr-2 md:mr-4 hover:bg-green-100/50"
             onClick={onMenuClick}
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="h-6 w-6 text-green-700" />
           </Button>
-          <Link href="/" className="flex items-center">
-            <Recycle className="h-6 w-6 md:h-8 md:w-8 text-green-600 mr-1 md:mr-2" />
+          <Link href="/" className="flex items-center group">
+            <div className="relative">
+              <Recycle className="h-8 w-8 md:h-10 md:w-10 text-green-600 mr-2 md:mr-3 group-hover:rotate-180 transition-transform duration-500" />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-orange-400 rounded-full animate-pulse"></div>
+            </div>
             <div className="flex flex-col">
-              <span className="font-bold text-base md:text-lg text-gray-800">
+              <span className="font-bold text-lg md:text-xl eco-gradient-text">
                 EcoTrack
               </span>
-              <span className="text-[8px] md:text-[10px] text-gray-500 -mt-1">
-                ETHOnline24
+              <span className="text-[10px] md:text-xs text-green-600 -mt-1 font-medium">
+                🌱 Clean Communities
               </span>
             </div>
           </Link>
@@ -273,10 +276,10 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Search..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Search locations, waste types..."
+                className="w-full px-5 py-3 bg-green-50/50 border border-green-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:bg-white transition-all duration-300 placeholder-green-600/60"
               />
-              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+              <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-green-500" />
             </div>
           </div>
         )}
@@ -315,16 +318,16 @@ export default function Header({ onMenuClick, totalEarnings }: headerProps) {
               )}
             </DropdownMenuContent>
             </DropdownMenu>
-            <div className="mr-2 md:mr-4 flex items-center bg-gray-100 rounded-full px-2 md:px-3 py-1">
-            <Coins className="h-4 w-4 md:h-5 md:w-5 mr-1 text-green-500" />
-            <span className="font-semibold text-sm md:text-base text-gray-800">
+            <div className="mr-2 md:mr-4 flex items-center bg-gradient-to-r from-green-100 to-emerald-100 rounded-2xl px-3 md:px-4 py-2 border border-green-200 group hover:scale-105 transition-transform duration-300">
+            <Coins className="h-4 w-4 md:h-5 md:w-5 mr-2 text-green-600 group-hover:animate-spin" />
+            <span className="font-bold text-sm md:text-base text-green-800">
               {balance.toFixed(2)}
             </span>
+            <span className="text-xs text-green-600 ml-1">ECO</span>
           </div>
           {!loggedIn ? (
-            <Button onClick={login} className="bg-green-600 hover:bg-green-700 text-white text-sm md:text-base">
-              Login
-              <LogIn className="ml-1 md:ml-2 h-4 w-4 md:h-5 md:w-5" />
+            <Button onClick={login} className="eco-button-primary text-sm md:text-base px-6">
+              🔑 Login
             </Button>
           ) : (
             <DropdownMenu>

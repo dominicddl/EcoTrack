@@ -242,26 +242,35 @@ export default function ReportPage() {
 
 
     return (
-        <div className="p-8 max-w-4xl mx-auto">
-            <h1 className="text-3xl font-semibold mb-6 text-gray-800">Report Waste</h1>
+        <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 py-8">
+            <div className="max-w-4xl mx-auto px-4">
+                <div className="text-center mb-8">
+                    <h1 className="text-4xl font-bold eco-gradient-text mb-2">Report Waste</h1>
+                    <p className="text-lg text-gray-600">Help keep your community clean by reporting waste incidents</p>
+                </div>
 
-            <form onSubmit={handleSubmit} className="bg-white p-8 rounded-2xl shadow-lg mb-12">
+                <form onSubmit={handleSubmit} className="eco-card p-8 mb-12">
                 <div className="mb-8">
-                    <label htmlFor="waste-image" className="block text-lg font-medium text-gray-700 mb-2">Upload Waste Image</label>
-                    <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl hover:border-green-500 transition-colors duration-300">
-                        <div className="space-y-1 text-center">
-                            <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                            <div className="flex text-sm text-gray-600">
+                    <label htmlFor="waste-image" className="block text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                        📷 Upload Waste Image
+                        <span className="ml-2 text-sm font-normal text-green-600 bg-green-100 px-2 py-1 rounded-full">AI Powered</span>
+                    </label>
+                    <div className="mt-1 flex justify-center px-6 pt-8 pb-8 border-2 border-green-300 border-dashed rounded-2xl hover:border-green-500 hover:bg-green-50/50 transition-all duration-300 group">
+                        <div className="space-y-2 text-center">
+                            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                <Upload className="h-8 w-8 text-green-600" />
+                            </div>
+                            <div className="flex text-base text-gray-700 font-medium">
                                 <label
                                     htmlFor="waste-image"
-                                    className="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-green-500"
+                                    className="relative cursor-pointer bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2 rounded-xl hover:from-green-700 hover:to-green-800 transition-all duration-300 transform hover:scale-105"
                                 >
-                                    <span>Upload a file</span>
+                                    <span>Choose File</span>
                                     <input id="waste-image" name="waste-image" type="file" className="sr-only" onChange={handleFileChange} accept="image/*" />
                                 </label>
-                                <p className="pl-1">or drag and drop</p>
+                                <p className="pl-3 self-center text-gray-600">or drag and drop</p>
                             </div>
-                            <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                            <p className="text-sm text-gray-500">PNG, JPG, GIF up to 10MB • AI will analyze automatically</p>
                         </div>
                     </div>
                 </div>
@@ -272,14 +281,14 @@ export default function ReportPage() {
                     </div>
                 )}
 
-                <Button type="button" onClick={handleVerify} className="w-full mb-8 bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg rounded-xl transition-colors duration-300"
+                <Button type="button" onClick={handleVerify} className="w-full mb-8 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 text-lg rounded-2xl transition-all duration-300 transform hover:scale-105 font-semibold"
                     disabled={!file || verificationStatus === "verifying"}>
                     {verificationStatus === 'verifying' ? (
                         <>
-                            <Loader className="animate-spin -ml-1 mr-3 h-5 w-5 text-white " />
-                            Verifying...
+                            <Loader className="animate-spin -ml-1 mr-3 h-6 w-6 text-white" />
+                            🤖 AI Analyzing...
                         </>
-                    ) : 'Verify Waste'}
+                    ) : '🔍 Verify with AI'}
                 </Button>
 
                 {verificationStatus === 'success' && verificationResult && (
@@ -359,43 +368,48 @@ export default function ReportPage() {
                 </div>
                 <Button
                     type="submit"
-                    className='w-full bg-green-600 hover:bg-green-700 text-white py-3 text-lg rounded-xl transition-colors duration-300'
+                    className='w-full eco-button-primary py-4 text-lg font-semibold'
                     disabled={isSubmitting}>
                     {isSubmitting ? (
                         <>
-                            <Loader className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" />
-                            Submitting...
+                            <Loader className="animate-spin -ml-1 mr-3 h-6 w-6 text-white" />
+                            📤 Submitting...
                         </>
-                    ) : 'Submit Report'}
+                    ) : '✅ Submit Report & Earn Tokens'}
                 </Button>
             </form>
 
-            <h2 className="text-3xl font-semibold mb-6 text-gray-800">Recent Reports</h2>
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div className="text-center mb-8">
+                    <h2 className="text-3xl font-bold eco-gradient-text mb-2">Recent Community Reports</h2>
+                    <p className="text-gray-600">See what others in your community are reporting</p>
+                </div>
+                <div className="eco-card overflow-hidden">
                 <div className="max-h-96 overflow-y-auto">
                     <table className="w-full">
-                        <thead className="bg-gray-50 sticky top-0">
+                        <thead className="bg-gradient-to-r from-green-100 to-emerald-100 sticky top-0">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waste Type</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-green-800 tracking-wider">📍 Location</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-green-800 tracking-wider">🗑️ Waste Type</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-green-800 tracking-wider">⚖️ Amount</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-green-800 tracking-wider">📅 Date</th>
                             </tr>
                         </thead>
-                        <tbody className='divide-y divide-gray-200'>
+                        <tbody className='divide-y divide-green-200'>
                             {reports.map((report) => (
-                                <tr key={report.id} className="hover:bg-gray-50 transition-colors duration-200">
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        <MapPin className="inline-block w-4 h-4 mr-2 text-green-500" />
+                                <tr key={report.id} className="hover:bg-green-50/50 transition-colors duration-200">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-medium">
+                                        <MapPin className="inline-block w-4 h-4 mr-2 text-green-600" />
                                         {report.location}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {report.wasteType}
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            {report.wasteType}
+                                        </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-medium">
                                         {report.amount}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                         {report.createdAt}
                                     </td>
                                 </tr>
@@ -405,6 +419,7 @@ export default function ReportPage() {
                 </div>
             </div>
         </div>
+    </div>
     );
 }
 
