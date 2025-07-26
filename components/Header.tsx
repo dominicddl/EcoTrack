@@ -43,7 +43,7 @@ interface Notification {
 
 const web3auth = new Web3Auth({
   clientId,
-  web3AuthNetwork: "sapphire_devnet",
+  web3AuthNetwork: process.env.NODE_ENV === "production" ? "sapphire_mainnet" : "sapphire_devnet",
 });
 
 interface headerProps {
