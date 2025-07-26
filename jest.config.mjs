@@ -7,8 +7,7 @@ export default {
   },
   transform: {
     '^.+\\.tsx?$': ['ts-jest', {
-      tsconfig: 'tsconfig.json',
-      babelConfig: true
+      tsconfig: 'tsconfig.json'
     }],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
