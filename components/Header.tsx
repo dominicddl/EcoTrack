@@ -32,8 +32,13 @@ import {
 } from "@/utils/db/actions";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-const clientId =
-  "BHDeNzbD7VTn_D12kGg0PmOndzjjgZSdNJTlqg7v-fXh1n3T75Z_D9qa2AF4IiSwtZJSYXK0KZ3wQyO-6JFR2fw";
+const clientId = process.env.NODE_ENV === "production"
+  ? process.env.NEXT_PUBLIC_WEB3_AUTH_CLIENT_ID_PROD
+  : process.env.NEXT_PUBLIC_WEB3_AUTH_CLIENT_ID_DEV;
+
+if (!clientId) {
+  throw new Error('Web3Auth Client ID not found. Please check your environment variables.');
+}
 
 interface Notification {
   id: number;

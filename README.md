@@ -78,7 +78,7 @@ sorting habits.
 
 ## Features
 
-### 1. User Acount Authentication [Completed]
+### 1. User Acount Authentication
 
 ---
 
@@ -1058,6 +1058,84 @@ Summary of Post-Interview Questions
 | What are some parts of the app you disliked? | The Web3Auth login was confusing, lack of instant feedback after submitting a report, and some pages (like rewards) felt incomplete.|
 | Additional Comments | Overall, EcoTrack is promising and useful, but a few usability improvements and more complete features would make it even better. |
 
+--- 
+
+## Coding Standard
+
+This coding standard outlines the conventions and best practices followed throughout the EcoTrack codebase to ensure code quality, maintainability, and consistency across all contributors.
+
+---
+
+### 1. **General Principles**
+
+- **Readability First:** Code should be easy to read and understand. Prioritize clarity over cleverness.
+- **Consistency:** Follow established patterns and conventions throughout the codebase.
+- **Simplicity:** Write simple, modular, and reusable code. Avoid unnecessary complexity.
+- **Documentation:** Use comments and docstrings where necessary to explain non-obvious logic.
+
+---
+
+### 2. **File and Folder Structure**
+
+- **Feature-based Organization:** Group files by feature/domain (e.g., `api/`, `components/`, `utils/`).
+- **Naming:** Use lowercase and hyphens for folders (e.g., `user-profile/`), and PascalCase for React components (e.g., `UserProfile.tsx`).
+- **Entry Points:** Use `index.ts` or `index.tsx` for module entry points when appropriate.
+
+---
+
+### 3. **Naming Conventions**
+
+- **Variables & Functions:** Use `camelCase` (e.g., `getUserByEmail`, `userId`).
+- **Classes & Components:** Use `PascalCase` (e.g., `UserCard`, `ReportForm`).
+- **Constants:** Use `UPPER_SNAKE_CASE` for global constants (e.g., `MAX_REWARD_POINTS`).
+- **Files:** Use `kebab-case` for file names (e.g., `user-profile.tsx`).
+
+---
+
+### 4. **TypeScript Usage**
+
+- **Type Safety:** All code must be written in TypeScript. Use explicit types and interfaces for function parameters, return values, and objects.
+- **Type Inference:** Leverage TypeScript’s type inference where appropriate, but prefer explicit types for public APIs and exported functions.
+- **Interfaces vs Types:** Use `interface` for object shapes and `type` for unions or more complex types.
+
+---
+
+### 5. **React & Next.js**
+
+- **Functional Components:** Use functional components with hooks. Avoid class components.
+- **Props Typing:** Define prop types using TypeScript interfaces.
+- **Hooks:** Use React hooks (`useState`, `useEffect`, etc.) for state and lifecycle management.
+- **File Extensions:** Use `.tsx` for files containing JSX/TSX, `.ts` for logic-only files.
+- **Pages & API Routes:** Follow Next.js conventions for file placement in `app/` and `pages/` directories.
+
+---
+
+### 6. **Styling**
+
+- **Tailwind CSS:** Use Tailwind utility classes for styling. Avoid inline styles unless necessary.
+- **Component Libraries:** Use `shadcn/ui` and `@radix-ui` components for consistent UI patterns.
+- **Class Management:** Use `clsx` or `tailwind-merge` for conditional class names.
+
+---
+
+### 7. **API & Database**
+
+- **API Routes:** Use RESTful conventions for API endpoints. Place API logic in `app/api/`.
+- **Database Access:** Use Drizzle ORM for all database operations. Keep queries in `utils/db/actions.ts` or feature-specific files.
+- **Error Handling:** Always handle errors gracefully and return meaningful error messages and status codes.
+
+### 8. **Code Formatting & Linting**
+
+- **Formatter:** Use Prettier for automatic code formatting.
+- **Linter:** Use ESLint with the Next.js and TypeScript recommended rules.
+- **Indentation:** Use 2 spaces for indentation.
+- **Line Length:** Limit lines to 100 characters where possible.
+- **Trailing Commas:** Use trailing commas in multi-line objects and arrays.
+
+By adhering to this coding standard, we ensure that EcoTrack remains robust, maintainable, and accessible for all current and future contributors.
+
+---
+
 ## Timeline and Development Plan
 
 ### **Milestone 1 - Technical Proof of Concept**
@@ -1092,6 +1170,43 @@ Summary of Post-Interview Questions
         <img src="assets/images/timeline2.jpeg" alt="Timeline 2 Table"><br>
     </p>
 </p>
+
+## Deployment
+This app was deployed via vercel. Click this url: https://eco-track-a396ok2t4-dominics-projects-f0dc4341.vercel.app
+
+## Tech Stack
+The EcoTrack project leverages a modern, full-stack technology stack to deliver a robust, scalable, and user-friendly experience:
+
+Tech Stack:
+
+Frontend:
+- Next.js 15 (React framework)
+- TypeScript
+- Tailwind CSS
+
+Authentication:
+- Web3Auth
+
+Backend:
+- Next.js API Routes
+- Node.js
+
+Database:
+- PostgreSQL
+- Drizzle ORM
+- Neon (Postgres hosting)
+
+AI & Image Processing:
+- Google Gemini Generative AI
+
+Testing & Quality:
+- Jest
+- ESLint
+- Prettier
+
+Other Tools:
+- Git
+- GitHub
 
 ## Proof-of-Concept Video (Prototype)
 
