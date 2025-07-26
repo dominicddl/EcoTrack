@@ -37,7 +37,9 @@ export default function Home() {
                 <span className="text-gray-800">Clean Communities</span>
               </h1>
               <p className="text-xl text-gray-600 max-w-xl leading-relaxed mb-8">
-                Transform waste management with AI verification, community rewards, and real-time tracking. Join the movement for cleaner neighborhoods.
+                Transform waste management with AI verification, community
+                rewards, and real-time tracking. Join the movement for cleaner
+                neighborhoods.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/report">
@@ -70,7 +72,9 @@ export default function Home() {
       {/* Features Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold mb-4 eco-gradient-text">How EcoTrack Works</h2>
+          <h2 className="text-4xl font-bold mb-4 eco-gradient-text">
+            How EcoTrack Works
+          </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Three simple steps to make your community cleaner and earn rewards
           </p>
@@ -107,14 +111,18 @@ export default function Home() {
             Community Impact Dashboard
           </h2>
           <div className="grid md:grid-cols-4 gap-6">
-            <ImpactCard title="Waste Collected" value={"20 Kg"} icon={Recycle} />
+            <ImpactCard
+              title="Waste Collected"
+              value={"20 Kg"}
+              icon={Recycle}
+            />
             <ImpactCard title="Reports Verified" value={50} icon={MapPin} />
             <ImpactCard title="Tokens Distributed" value={100} icon={Coins} />
             <ImpactCard title="CO₂ Offset" value={"50 Kg"} icon={Recycle} />
           </div>
         </div>
       </section>
-      
+
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-20 text-center">
         <div className="eco-glass p-12 max-w-4xl mx-auto">
@@ -131,7 +139,10 @@ export default function Home() {
               </Button>
             </Link>
             <Link href="/rewards">
-              <Button variant="outline" className="text-lg py-4 px-8 border-2 border-green-600 text-green-600 hover:bg-green-50">
+              <Button
+                variant="outline"
+                className="text-lg py-4 px-8 border-2 border-green-600 text-green-600 hover:bg-green-50"
+              >
                 View Rewards
               </Button>
             </Link>
@@ -153,26 +164,30 @@ function FeatureCard({
   title: string;
   description: string;
   step: string;
-  color: 'green' | 'orange' | 'blue';
+  color: "green" | "orange" | "blue";
 }) {
   const colorClasses = {
-    green: 'bg-green-100 text-green-600 border-green-200',
-    orange: 'bg-orange-100 text-orange-600 border-orange-200',
-    blue: 'bg-blue-100 text-blue-600 border-blue-200',
+    green: "bg-green-100 text-green-600 border-green-200",
+    orange: "bg-orange-100 text-orange-600 border-orange-200",
+    blue: "bg-blue-100 text-blue-600 border-blue-200",
   };
-  
+
   const stepColors = {
-    green: 'bg-green-500',
-    orange: 'bg-orange-500', 
-    blue: 'bg-blue-500',
+    green: "bg-green-500",
+    orange: "bg-orange-500",
+    blue: "bg-blue-500",
   };
 
   return (
     <div className="eco-card p-8 flex flex-col items-center text-center relative group">
-      <div className={`absolute -top-3 -right-3 ${stepColors[color]} text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold`}>
+      <div
+        className={`absolute -top-3 -right-3 ${stepColors[color]} text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold`}
+      >
         {step}
       </div>
-      <div className={`${colorClasses[color]} p-6 rounded-2xl mb-6 border-2 group-hover:scale-110 transition-transform duration-300`}>
+      <div
+        className={`${colorClasses[color]} p-6 rounded-2xl mb-6 border-2 group-hover:scale-110 transition-transform duration-300`}
+      >
         <Icon className="h-10 w-10"></Icon>
       </div>
       <h3 className="text-xl font-semibold mb-4 text-gray-800">{title}</h3>

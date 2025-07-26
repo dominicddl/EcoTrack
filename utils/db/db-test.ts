@@ -7,13 +7,13 @@ import { Users } from "./schema";
 async function testDatabaseConnection() {
   try {
     console.log("Testing database connection...");
-    
+
     // Try to query the users table
     const result = await db.select().from(Users).limit(1).execute();
-    
+
     console.log("✅ Database connection successful!");
     console.log(`Found ${result.length} users in the database`);
-    
+
     return true;
   } catch (error) {
     console.error("❌ Database connection failed:", error);

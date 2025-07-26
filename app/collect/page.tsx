@@ -84,7 +84,7 @@ export default function CollectPage() {
 
   const [selectedTask, setSelectedTask] = useState<CollectionTask | null>(null);
   const [verificationImage, setVerificationImage] = useState<string | null>(
-    null
+    null,
   );
   const [verificationStatus, setVerificationStatus] = useState<
     "idle" | "verifying" | "success" | "failure"
@@ -97,7 +97,7 @@ export default function CollectPage() {
 
   const handleStatusChange = async (
     taskId: number,
-    newStatus: CollectionTask["status"]
+    newStatus: CollectionTask["status"],
   ) => {
     if (!user) {
       toast.error("Please log in to collect waste.");
@@ -111,8 +111,8 @@ export default function CollectPage() {
           tasks.map((task) =>
             task.id === taskId
               ? { ...task, status: newStatus, collectorId: user.id }
-              : task
-          )
+              : task,
+          ),
         );
         toast.success("Task status updated successfully");
       } else {
@@ -189,8 +189,8 @@ export default function CollectPage() {
             confidence: parsedResult.confidence,
           });
           setVerificationStatus("success");
-        
-         await handleStatusChange(selectedTask.id, "verified");
+
+          await handleStatusChange(selectedTask.id, "verified");
           const earnedReward = Math.floor(Math.random() * 50) + 10; // Random reward between 10 and 59
 
           // Save the reward
@@ -204,7 +204,7 @@ export default function CollectPage() {
             {
               duration: 5000,
               position: "top-center",
-            }
+            },
           );
         } else {
           toast.error(
@@ -212,7 +212,7 @@ export default function CollectPage() {
             {
               duration: 5000,
               position: "top-center",
-            }
+            },
           );
         }
       } catch (error) {
@@ -228,13 +228,13 @@ export default function CollectPage() {
   };
 
   const filteredTasks = tasks.filter((task) =>
-    task.location.toLowerCase().includes(searchTerm.toLowerCase())
+    task.location.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const pageCount = Math.ceil(filteredTasks.length / ITEMS_PER_PAGE);
   const paginatedTasks = filteredTasks.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   return (

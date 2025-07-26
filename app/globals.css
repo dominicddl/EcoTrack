@@ -2,11 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
   :root {
-    --background: 46 100% 98%; 
+    --background: 46 100% 98%;
     --foreground: 158 64% 15%;
 
     --card: 46 100% 99%;
@@ -15,16 +13,16 @@
     --popover: 46 100% 99%;
     --popover-foreground: 158 64% 15%;
 
-    --primary: 158 64% 25%; 
+    --primary: 158 64% 25%;
     --primary-foreground: 46 100% 98%;
 
-    --secondary: 45 100% 85%; 
+    --secondary: 45 100% 85%;
     --secondary-foreground: 158 64% 15%;
 
     --muted: 45 50% 92%;
     --muted-foreground: 158 30% 35%;
 
-    --accent: 35 100% 75%; 
+    --accent: 35 100% 75%;
     --accent-foreground: 158 64% 15%;
 
     --destructive: 0 84% 60%;
@@ -40,10 +38,9 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
-    --radius: 0.75rem
+    --radius: 0.75rem;
   }
   .dark {
-
     --background: 0 0% 3.9%;
 
     --foreground: 0 0% 98%;
@@ -90,11 +87,9 @@
 
     --chart-4: 280 65% 60%;
 
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {
@@ -102,9 +97,17 @@
   }
   body {
     @apply bg-background text-foreground;
-    background-image: 
-      radial-gradient(circle at 25% 25%, hsl(158 64% 25% / 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 75% 75%, hsl(35 100% 75% / 0.05) 0%, transparent 50%);
+    background-image:
+      radial-gradient(
+        circle at 25% 25%,
+        hsl(158 64% 25% / 0.05) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        circle at 75% 75%,
+        hsl(35 100% 75% / 0.05) 0%,
+        transparent 50%
+      );
   }
 }
 
@@ -112,28 +115,35 @@
 @layer components {
   .eco-card {
     @apply bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-all duration-300;
-    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
+    background: linear-gradient(
+      135deg,
+      hsl(var(--card)) 0%,
+      hsl(var(--muted)) 100%
+    );
   }
-  
+
   .eco-button-primary {
     @apply bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-medium rounded-xl transition-all duration-300 transform hover:scale-105;
   }
-  
+
   .eco-button-secondary {
     @apply bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-medium rounded-xl transition-all duration-300;
   }
-  
+
   .eco-glass {
     @apply backdrop-blur-sm bg-white/80 border border-white/20 rounded-xl;
   }
-  
+
   .eco-gradient-text {
     @apply bg-gradient-to-r from-green-600 via-green-700 to-emerald-600 bg-clip-text text-transparent;
   }
-  
+
   .eco-pattern {
-    background-image: 
-      radial-gradient(circle at 1px 1px, hsl(158 64% 25% / 0.1) 1px, transparent 0);
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      hsl(158 64% 25% / 0.1) 1px,
+      transparent 0
+    );
     background-size: 20px 20px;
   }
 }
