@@ -388,7 +388,7 @@ sequenceDiagram
 
 #### Description
 
-The Rewards feature in EcoTrack motivates users to engage in sustainable actions by awarding points for activities such as reporting waste or collecting litter. Users accumulate points, which are tracked as transactions and reflected in their reward balance. These points can be redeemed for various rewards, such as vouchers or eco-friendly products, which are displayed in a catalog. As of milestone 2, this has yet to be implemented. The Rewards page provides a clear overview of the user's current balance, recent transactions, and available rewards, making the system transparent and engaging.
+The Rewards feature in EcoTrack motivates users to engage in sustainable actions by awarding points for activities such as reporting waste or collecting litter. Users accumulate points, which are tracked as transactions and reflected in their reward balance. These points can be redeemed for various rewards, such as vouchers or eco-friendly products, which are displayed in a catalog. The Rewards page provides a clear overview of the user's current balance, recent transactions, and available rewards, making the system transparent and engaging.
 
 ---
 
@@ -998,10 +998,7 @@ The purpose of unit testing is to ensure that small units of code work, such tha
 know that it is not due to the functions that were already implemented. With such tests, this allows
 us to narrow down what to look for when bugs arises, allowing us to fix errors swiftly.
 
-Due to the extensive amounts of unit testing present, we will display a few of the tests created in our
-README for milestone 2. Note that this list is non-exhaustive and will increase heading into Milestone 3
-
-For our React frontend, we will test our UI components and utility functions using tools using jest.
+For our React frontend, we tested our UI components and utility functions using tools using jest.
 
 <!-- Show screenshots for unit testing -->
 <p align="center">
@@ -1009,17 +1006,17 @@ For our React frontend, we will test our UI components and utility functions usi
         <em>Unit Test Results</em>
     </p>
 
-| Test ID | User Story | Testing Objective | Steps Taken | Expected Results | Pass/Fail | Date Tested |
-|---------|------------|-------------------|-------------|------------------|-----------|-------------|
-| 1 | As a new user, I want to create an account so that I can access the reward system | Verify that createUser function successfully creates a new user | 1. Mock database insert operation<br>2. Call createUser with email and name<br>3. Verify returned user object | User object returned with id: 1, email: 'test@example.com', name: 'Test User' | Pass | 2025-07-25 |
-| 2 | As a system, I need to retrieve user information by email for authentication | Verify that getUserByEmail function fetches user data correctly | 1. Mock database select operation<br>2. Call getUserByEmail with test email<br>3. Verify returned user data | User object returned with correct email and user details | Pass | 2025-07-25 |
-| 3 | As a user, I want to see my current balance so that I know how many points I have | Verify that getUserBalance never returns negative values | 1. Mock transactions with net negative balance (earned: 10, redeemed: 20)<br>2. Call getUserBalance function<br>3. Verify balance is not negative | Balance returns 0 instead of -10 when calculations would result in negative | Pass | 2025-07-25 |
-| 4 | As a user, I want to earn points for reporting so that I can be rewarded for my contributions | Verify that createTransaction function creates reward transactions | 1. Mock database insert operation<br>2. Call createTransaction with 'earned_report' type<br>3. Verify transaction creation | Transaction created successfully with correct type and amount | Pass | 2025-07-25 |
-| 5 | As a user, I want to receive notifications so that I stay informed about my account activity | Verify that createNotification function works correctly | 1. Mock database insert operation<br>2. Call createNotification with test message<br>3. Verify notification creation | Notification created successfully with correct message and type | Pass | 2025-07-25 |
-| 6 | As a user, I want to see my unread notifications so that I don't miss important updates | Verify that getUnreadNotifications retrieves unread notifications | 1. Mock database select operation<br>2. Call getUnreadNotifications for test user<br>3. Verify array is returned | Array of unread notifications returned successfully | Pass | 2025-07-25 |
-| 7 | As a user, I want to mark notifications as read so that I can manage my notification list | Verify that markNotificationAsRead updates notification status | 1. Mock database update operation<br>2. Call markNotificationAsRead with notification ID<br>3. Verify update operation called | Database update operation executed successfully | Pass | 2025-07-25 |
-| 8 | As a user, I want to view my reward transaction history so that I can track my earnings | Verify that getRewardTransactions fetches transaction history | 1. Mock database select with sample transactions<br>2. Call getRewardTransactions for test user<br>3. Verify transaction array structure | Array returned with transactions containing type, amount, and other required properties | Pass | 2025-07-25 |
-| 9 | As a system, I need to format dates consistently so that transaction dates are readable | Verify that getRewardTransactions formats dates in YYYY-MM-DD format | 1. Mock transactions with Date objects<br>2. Call getRewardTransactions function<br>3. Check date format in returned data | Transaction dates formatted as YYYY-MM-DD strings | Pass | 2025-07-25 |
+| Test ID | User Story                                                                                    | Testing Objective                                                    | Steps Taken                                                                                                                                       | Expected Results                                                                        | Pass/Fail | Date Tested |
+| ------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | --------- | ----------- |
+| 1       | As a new user, I want to create an account so that I can access the reward system             | Verify that createUser function successfully creates a new user      | 1. Mock database insert operation<br>2. Call createUser with email and name<br>3. Verify returned user object                                     | User object returned with id: 1, email: 'test@example.com', name: 'Test User'           | Pass      | 2025-07-25  |
+| 2       | As a system, I need to retrieve user information by email for authentication                  | Verify that getUserByEmail function fetches user data correctly      | 1. Mock database select operation<br>2. Call getUserByEmail with test email<br>3. Verify returned user data                                       | User object returned with correct email and user details                                | Pass      | 2025-07-25  |
+| 3       | As a user, I want to see my current balance so that I know how many points I have             | Verify that getUserBalance never returns negative values             | 1. Mock transactions with net negative balance (earned: 10, redeemed: 20)<br>2. Call getUserBalance function<br>3. Verify balance is not negative | Balance returns 0 instead of -10 when calculations would result in negative             | Pass      | 2025-07-25  |
+| 4       | As a user, I want to earn points for reporting so that I can be rewarded for my contributions | Verify that createTransaction function creates reward transactions   | 1. Mock database insert operation<br>2. Call createTransaction with 'earned_report' type<br>3. Verify transaction creation                        | Transaction created successfully with correct type and amount                           | Pass      | 2025-07-25  |
+| 5       | As a user, I want to receive notifications so that I stay informed about my account activity  | Verify that createNotification function works correctly              | 1. Mock database insert operation<br>2. Call createNotification with test message<br>3. Verify notification creation                              | Notification created successfully with correct message and type                         | Pass      | 2025-07-25  |
+| 6       | As a user, I want to see my unread notifications so that I don't miss important updates       | Verify that getUnreadNotifications retrieves unread notifications    | 1. Mock database select operation<br>2. Call getUnreadNotifications for test user<br>3. Verify array is returned                                  | Array of unread notifications returned successfully                                     | Pass      | 2025-07-25  |
+| 7       | As a user, I want to mark notifications as read so that I can manage my notification list     | Verify that markNotificationAsRead updates notification status       | 1. Mock database update operation<br>2. Call markNotificationAsRead with notification ID<br>3. Verify update operation called                     | Database update operation executed successfully                                         | Pass      | 2025-07-25  |
+| 8       | As a user, I want to view my reward transaction history so that I can track my earnings       | Verify that getRewardTransactions fetches transaction history        | 1. Mock database select with sample transactions<br>2. Call getRewardTransactions for test user<br>3. Verify transaction array structure          | Array returned with transactions containing type, amount, and other required properties | Pass      | 2025-07-25  |
+| 9       | As a system, I need to format dates consistently so that transaction dates are readable       | Verify that getRewardTransactions formats dates in YYYY-MM-DD format | 1. Mock transactions with Date objects<br>2. Call getRewardTransactions function<br>3. Check date format in returned data                         | Transaction dates formatted as YYYY-MM-DD strings                                       | Pass      | 2025-07-25  |
 
 #### Integration Testing
 
@@ -1058,7 +1055,7 @@ Summary of Post-Interview Questions
 | What are some parts of the app you disliked? | The Web3Auth login was confusing, lack of instant feedback after submitting a report, and some pages (like rewards) felt incomplete.|
 | Additional Comments | Overall, EcoTrack is promising and useful, but a few usability improvements and more complete features would make it even better. |
 
---- 
+---
 
 ## Coding Standard
 
@@ -1172,39 +1169,48 @@ By adhering to this coding standard, we ensure that EcoTrack remains robust, mai
 </p>
 
 ## Deployment
-This app was deployed via vercel. Click this url: https://eco-track-a396ok2t4-dominics-projects-f0dc4341.vercel.app
+
+This app was deployed via Vercel. [View the live site here](https://eco-track-dominics-projects-f0dc4341.vercel.app).
 
 ## Tech Stack
+
 The EcoTrack project leverages a modern, full-stack technology stack to deliver a robust, scalable, and user-friendly experience:
 
 Tech Stack:
 
 Frontend:
+
 - Next.js 15 (React framework)
 - TypeScript
 - Tailwind CSS
 
 Authentication:
+
 - Web3Auth
 
 Backend:
+
 - Next.js API Routes
 - Node.js
 
 Database:
+
 - PostgreSQL
 - Drizzle ORM
 - Neon (Postgres hosting)
 
 AI & Image Processing:
+
 - Google Gemini Generative AI
 
 Testing & Quality:
+
 - Jest
 - ESLint
 - Prettier
 
 Other Tools:
+
 - Git
 - GitHub
 
